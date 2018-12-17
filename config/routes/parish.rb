@@ -1,0 +1,3 @@
+resources :parishes do
+    
+end

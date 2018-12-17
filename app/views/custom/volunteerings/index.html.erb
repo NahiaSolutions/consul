@@ -1,0 +1,34 @@
+<% content_for :body_class, "home-page" %>
+<% provide :title do %><%= "Voluntariado" %><% end %>
+
+<main>
+    <div class="help-header no-margin-top margin-bottom">
+        <div class="row">
+            <div class="small-12 column" data-magellan>
+                <%= image_tag "help/help_icon_volunteering.png", class: "align-top", size: "26x26" %>
+                <h1 class="inline-block"><%= "Voluntariado" %></h1>
+                <%= link_to "Ayuda Voluntariado", "#section_help", class: "float-right" %>
+            </div>
+        </div>
+    </div>
+    
+    <!--Render de categorias y programas-->
+    <%= render "category"%>
+    <!---->
+
+    <div class="row">
+        <div id="section_help" class="margin small-12 column">
+            <p class="lead">
+              <strong><%= "¿Quieres ser parte del Voluntariado Quito Acción?" %></strong>
+            </p>
+            <p>El proyecto “Quito Acción” busca articular todas las iniciativas municipales
+			alrededor del voluntariado en una sola plataforma. A través de QUITO DECIDE, podrás
+			encontrar las ofertas de voluntariado que sean de tu interés e inscribirte para formar parte de él.</p>
+			<p>La Ordenanza Metropolitana N° 102, en su Art. 10.- se reconoce y promueve toda iniciativa de voluntariado
+			de acción social y desarrollo como una forma libre y autónoma de participación ciudadana, de compromiso comunitario
+			responsable y ético con la transformación social, conforme a las demandas generadas desde la comunidad en un proceso
+			abierto de intercambio, diálogo y beneficio mutuo. El voluntariado fomenta la cultura de la solidaridad y colaboración
+			de los ciudadanos en el desarrollo de la ciudad.</p>
+        </div>
+    </div>
+</main>

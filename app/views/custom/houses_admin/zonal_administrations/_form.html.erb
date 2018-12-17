@@ -1,0 +1,8 @@
+<%= form_for [:houses_admin, @zonalAdministration]  do |f| %>
+  <%= render 'shared/errors', resource: @zonalAdministration %>
+
+  <%= f.label :name, "Nombre de la administración" %>
+  <%= f.text_field :name, label: false %>
+
+  <%= f.submit "Guardar" %>
+<% end %>

@@ -1,0 +1,17 @@
+<div class="row section-content">
+  <div class="small-12 column">
+    <h3 id="polls" data-magellan-target="polls"><%= t("pages.help.polls.title") %></h3>
+    <p class="lead">
+        <strong>¿Cómo participar en las Votaciones?</strong>
+      </p>
+      
+      <p><%= link_to new_user_registration_path, accesskey: "0" do %><%= "Regístrate" %><% end %> para poder votar por una Idea Ciudadana y también por las propuestas
+      que el Municipio del Distrito Metropolitano de Quito (DMQ) te proponga. Toma decisiones
+      sobre la gestión y proyectos municipales de forma directa.</p>
+      <p>Las votaciones se convocan cuando una Idea Ciudadana alcanza el 0.25% de apoyos respecto a la población del censo del DMQ (2’239.191 de habitantes - INEC, 2010) y cuentan con factibilidad técnica realizada por la entidad municipal correspondiente.
+       En las votaciones también se pueden incluir propuestas que el Municipio de Quito somete a decisión directa de la ciudadanía.</p>
+      <p>Para participar en la próxima votación, regístrate en <%= link_to new_user_registration_path, accesskey: "0" do %><%= setting["org_name"] %><% end %> y verifica tu cuenta. 
+      Pueden votar todas las personas del DMQ mayores de 16 años.</p>
+      <p>Los resultados de todas las votaciones serán de obligatorio cumplimiento para el Municipio.</p>
+  </div>
+</div>

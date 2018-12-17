@@ -1,0 +1,48 @@
+<% content_for :body_class, "home-page" %>
+<% if @ageOptions.any? %>
+    <div class="text-center">
+        <ul class="no-bullet submenu">
+            <% @ageOptions.each do |ageOptions| %> 
+                <% if @workshops.where(:id_age_range => ageOptions.id).any? %>
+                    <li class="inline-block" data-magellan>
+                        <%= link_to ageOptions.name, "#section-help-#{ageOptions.id}" %>
+                    </li>
+                <% end %>
+            <% end %>
+        </ul>
+    </div>
+
+    <% @ageOptions.each do |ageOptions| %>
+        <% if @workshops.where(:id_age_range => ageOptions.id).any? %>
+            <div class="margin">
+                <div class="row fila">
+                    <h2 id="section-help-<%= ageOptions.id%>" class="text-center"><%= ageOptions.name%></h2>
+                    
+                        <% @workshops.where(:id_age_range => ageOptions.id).each do |workshop|%>
+                            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                                <%= link_to namespaced_house_path(workshop.name, :option => 'workshop', :workshopname => workshop.name) do %>
+                                    <figure class="figure-card">
+                                            <div class="gradient"></div>
+                                                <% if workshop.image.present?%>
+                                                    <%= image_tag workshop.image_url(:large) %>
+                                                <% elsif workshop.photo.present? %>
+                                                    <%= image_tag(workshop.photo, alt: workshop.photo) %>
+                                                <% else %>
+                                                    <%= image_tag("voluntDefault.jpg") %>
+                                                <% end %>
+                                        <figcaption>
+                                            <span><%= "Ver taller" %></span><br>
+                                            <h3><%= workshop.name %></h3>
+                                        </figcaption>
+                                    </figure>
+                                    <h6 class="subtituloCasa">Descripción:</h6>
+                                    <p class="textCartaCasa"><%= workshop.short_description%></p>
+                                <% end %>
+                            </div>
+                        <% end %>
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+    
+<% end %>

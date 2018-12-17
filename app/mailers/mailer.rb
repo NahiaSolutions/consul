@@ -5,6 +5,14 @@ class Mailer < ApplicationMailer
   helper :mailer
   helper :users
 
+  def volunteerings_email(user, program)
+    @user = user
+    @program = program
+    with_user(user) do
+      mail(:to => user.email, :subject => "Inscripción en #{program.title}")
+    end
+  end
+
   def comment(comment)
     @comment = comment
     @commentable = comment.commentable

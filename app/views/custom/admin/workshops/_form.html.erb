@@ -1,0 +1,50 @@
+<%= form_for [:admin, @zonalAdministration, @house, @workshop]  do |f| %>
+  <%= render 'shared/errors', resource: @workshop %>
+
+  <%= f.label :name, "Nombre del taller" %>
+  <%= f.text_field :name, placeholder: "Nombre", label: false %>
+
+  <%= f.label :teacher, "Responsable del taller" %>
+  <%= f.text_field :teacher, placeholder: "nombre del responsable", label: false %>
+
+  <%= f.label :schedule, "Horario del taller <span><small style='font-weight: normal;'>caracteres permitidos: ( : - / . )</small></span>" %>
+  <%= f.text_field :schedule, placeholder: "Ejem: Lun - Vie de 08:00 a 16:00", label: false %>
+
+  <%= f.label :quota, "Cupos" %>
+  <%= f.number_field :quota, label: false %>
+
+  <%= f.label :short_description, "Descripción corta" %>
+  <%= f.text_field :short_description, label: false %>
+
+  <%= f.label :long_description, "Descripción larga" %>
+  <div class="row">
+    <div class="small-12 column">
+      <%= f.text_area :long_description, rows: 8, label: false %>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable: @house, f: f %>
+  <span><small style='font-weight: normal;'>
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px)
+  </small></span>
+
+  <hr>
+
+  <%= f.label :id_age_range, "Rango de edad" %>
+  <%= f.select :id_age_range, options_for_select(HousesAgeRange.age_options, :selected => @selectAgeRange), {label: false, 
+               :include_blank => "Seleccione"},{}%>
+
+  <%= f.label :status, "Estado" %>
+  <%= f.select :status, options_for_select(["curso", "pasado", "futuro"], :selected => @selectStatus), {label: false, 
+               :include_blank => "Seleccione"},{}%>
+
+  <%= f.hidden_field :house_id, value: @house.id %>
+
+  <br>
+
+  <%= f.submit "Guardar" %>
+
+<% end %>

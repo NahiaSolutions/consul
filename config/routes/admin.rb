@@ -96,6 +96,18 @@ namespace :admin do
     get :search, on: :collection
   end
 
+  #Administracion Casa Somos y Voluntariado
+
+  resources :houses_administrators, only: [:index, :create, :destroy] do
+    get :search, on: :collection
+  end
+
+  resources :volunteerings_administrators, only: [:index, :create, :destroy] do
+    get :search, on: :collection
+  end
+
+  #----------------------------------------
+
   resources :users, only: [:index, :show]
 
   scope module: :poll do
@@ -175,6 +187,33 @@ namespace :admin do
   end
 
   resources :geozones, only: [:index, :new, :create, :edit, :update, :destroy]
+
+  #Voluntariado
+
+  resources :volunt_categories, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    resources :volunt_programs, only: [:show, :new, :create, :edit, :update, :destroy] do
+      resources :volunt_users, only: [:destroy]
+    end
+  end
+
+  #Casa Somos
+
+  resources :zonal_administrations, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+    resources :houses, only: [:show, :new, :create, :edit, :update, :destroy] do
+      resources :workshops, only: [:new, :show, :create, :edit, :update, :destroy] do
+        resources :workshop_users, only: [:edit, :update, :destroy]
+        resources :workshop_images, only: [:new, :create, :edit, :update, :destroy]
+      end
+      resources :house_news, only: [:new, :create, :edit, :update, :destroy]
+      resources :house_images, only: [:new, :create, :edit, :update, :destroy]
+    end
+  end
+
+  #Rango de edades
+
+  resources :houses_age_ranges, only: [:index, :new, :create, :edit, :update]
+
+  #-------------
 
   namespace :site_customization do
     resources :pages, except: [:show]

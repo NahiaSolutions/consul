@@ -14,12 +14,44 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  config.action_mailer.asset_host = "http://localhost:3000"
+  #config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: '0.0.0.0', port: 3000 }
+  config.action_mailer.asset_host = "http://0.0.0.0:3000"
 
   # Deliver emails to a development mailbox at /letter_opener
-  config.action_mailer.delivery_method = :letter_opener
+  #config.action_mailer.delivery_method = :letter_opener
+  
+  #Gmail
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+    :address              => 'smtp.gmail.com',
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => 'decidequito@gmail.com',
+    :password             => 'decide12345678',
+    :authentication       => :plain,
+    :enable_starttls_auto => true
+  }
+
+  #Mailgun
+  #config.action_mailer.raise_delivery_errors = true
+  #config.action_mailer.delivery_method = :smtp
+  #config.action_mailer.perform_deliveries = true
+  #config.action_mailer.smtp_settings = {
+  #  :address              => 'smtp.mailgun.org',
+  #  :port                 => 2525,
+  #  :domain               => 'sandboxc4b1847531aa4878821d0c9c1e23e92c.mailgun.org',
+  #  :user_name            => 'postmaster@sandboxc4b1847531aa4878821d0c9c1e23e92c.mailgun.org',
+  #  :password             => '313bd8057ea750574a06db7295e0f698-c1fe131e-eb3c4926',
+  #  :authentication       => :plain,
+  #  :enable_starttls_auto => true,
+  #  :ssl                  => false
+  #}
+
+  config.web_console.whiny_requests = false
+  #config.web_console.whitelisted_ip = '172.25.4.43'
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -55,3 +87,7 @@ Rails.application.configure do
     end
   end
 end
+
+
+
+

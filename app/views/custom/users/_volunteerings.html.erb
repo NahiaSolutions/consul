@@ -1,0 +1,9 @@
+<div style="margin-left: 2%;">
+    <h3>Voluntariados</h3>
+    <% @volunteeringsUser.each do |programs| %>
+        <% @volunteeringsPrograms.where(:id => programs.volunt_program_id).each do |program| %>
+            <p>Estas inscrito en <%= link_to program.title, namespaced_volunteering_path(program.title,
+            :categoryid => program.volunt_category_id, :programid => program.id) %></p>     
+        <% end %>
+    <% end %>
+</div>

@@ -31,7 +31,14 @@ Rails.application.routes.draw do
   draw :user
   draw :valuation
   draw :verification
-
+  draw :volunteering
+  draw :house
+  draw :parish
+  draw :age_range
+  draw :webservice
+  draw :houses_admin
+  draw :volunteerings_admin
+  
   root 'welcome#index'
   get '/welcome', to: 'welcome#welcome'
   get '/consul.json', to: "installation#details"
@@ -40,11 +47,12 @@ Rails.application.routes.draw do
   resources :images, only: [:destroy]
   resources :documents, only: [:destroy]
   resources :follows, only: [:create, :destroy]
-
   # More info pages
   get 'help',             to: 'pages#show', id: 'help/index',             as: 'help'
   get 'help/how-to-use',  to: 'pages#show', id: 'help/how_to_use/index',  as: 'how_to_use'
   get 'help/faq',         to: 'pages#show', id: 'help/faq/index',         as: 'faq'
+
+  get 'register', to: 'volunteerings#register', id: 'volunteerings/register', as: 'register'
 
   # Static pages
   get '/blog' => redirect("http://blog.consul/")

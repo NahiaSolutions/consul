@@ -1,0 +1,144 @@
+<% provide :title do %><%= t("budgets.index.title") %><% end %>
+<% content_for :canonical do %>
+  <%= render "shared/canonical", href: budgets_url %>
+<% end %>
+
+<% if current_budget.present? %>
+  <div id="budget_heading" class="expanded budget no-margin-top">
+    <div class="row" data-equalizer data-equalizer-on="medium">
+      <div class="small-12 medium-9 column padding" data-equalizer-watch>
+
+          <h1><%= current_budget.name %></h1>
+          <div class="description">
+            <%= safe_html_with_links(current_budget.description) %>
+          </div>
+          <p>
+            <%= link_to t("budgets.index.section_header.help"), "#section_help" %>
+          </p>
+        </div>
+        <div class="small-12 medium-3 column info padding" data-equalizer-watch>
+          <p>
+            <strong><%= t("budgets.show.phase") %></strong>
+          </p>
+          <h2><%= t("budgets.phase.#{current_budget.phase}") %></h2>
+
+          <%= link_to t("budgets.index.section_header.all_phases"), "#all_phases" %>
+        
+          <!--Condición para que solo admin pueda llenar-->
+          <% if current_budget.accepting? && show_admin_menu? %>
+            <% if current_user %>
+              <% if current_user.level_two_or_three_verified? %>
+                <%= link_to t("budgets.investments.index.sidebar.create"),
+                            new_budget_investment_guide,
+                            class: "button margin-top expanded" %>
+              <% else %>
+                <div class="callout warning margin-top">
+                  <%= t("budgets.investments.index.sidebar.verified_only",
+                      verify: link_to(t("budgets.investments.index.sidebar.verify_account"),
+                                      verification_path)).html_safe %>
+                </div>
+              <% end %>
+            <% else %>
+              <div class="callout primary margin-top">
+                <%= t("budgets.investments.index.sidebar.not_logged_in",
+                      sign_in: link_to(t("budgets.investments.index.sidebar.sign_in"),
+                      new_user_session_path),
+                      sign_up: link_to(t("budgets.investments.index.sidebar.sign_up"),
+                      new_user_registration_path)).html_safe %>
+              </div>
+            <% end %>
+          <% end %>
+
+        <% if current_budget.finished? %>
+          <%= link_to t("budgets.show.see_results"),
+                      budget_results_path(current_budget, heading_id: current_budget.headings.first),
+                      class: "button margin-top expanded" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div id="budget_info" class="budget-info">
+    <div class="row margin-top">
+      <div class="small-12 column">
+
+        <div id="groups_and_headings" class="groups-and-headings">
+          <% current_budget.groups.each do |group| %>
+            <h2 id="<%= group.name.parameterize %>"><%= group.name %></h2>
+            <ul class="no-bullet" data-equalizer data-equalizer-on="medium">
+              <% group.headings.order_by_group_name.each do |heading| %>
+                <li class="heading small-12 medium-4 large-2" data-equalizer-watch>
+                  <% unless current_budget.informing? %>
+                    <%= link_to budget_investments_path(current_budget.id, heading_id: heading.id) do %>
+                      <%= heading_name_and_price_html(heading, current_budget) %>
+                    <% end %>
+                  <% else %>
+                    <div>
+                      <%= heading_name_and_price_html(heading, current_budget) %>
+                    </div>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+        </div>
+
+        <% unless current_budget.informing? %>
+          <div id="map">
+            <h3><%= t("budgets.index.map") %></h3>
+            <%= render_map(nil, "budgets", false, nil, @budgets_coordinates) %>
+          </div>
+
+          <br>
+        <% end %>
+
+        <div id="all_phases">
+          <h2><%= t("budgets.index.all_phases") %></h2>
+          <%= render "phases", budget: current_budget %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<% else %>
+  <div class="expanded budget no-margin-top margin-bottom">
+    <div class="row">
+      <div class="small-12 medium-9 column padding">
+          <h1><%= t("budgets.index.title") %></h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 column">
+      <div class="callout primary">
+        <%= t("budgets.index.empty_budgets") %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="small-12 column">
+    <div id="section_help" class="margin" data-magellan-target="section_help">
+      <p class="lead">
+        <strong>¿Qué son los Presupuestos Participativos?</strong>
+      </p>
+      <p>Es un mecanismo de participación ciudadana que le permite a la ciudadanía
+       decidir qué obras y proyectos sociales se realizarán en sus barrios, a través
+        de las asambleas parroquiales de <%= link_to "http://gobiernoabierto.quito.gob.ec/?page_id=2098",
+         accesskey: "0" do %><%= "presupuestos participativos" %><% end %>.</p>
+      <p>Cada año la comunidad toma decisión sobre al menos el 60% del presupuesto zonal
+       de inversión que se destinará a la ejecución de obra pública, programas y proyectos sociales.</p>
+      <p>Su implementación se realiza de conformidad con lo establecido en la 
+      <%= link_to "http://www7.quito.gob.ec/mdmq_ordenanzas/Ordenanzas/ORDENANZAS%20MUNICIPALES%202016/ORDM%20-%20102%20%20%20%20%20%20%20Sistema%20Metropolitano%20de%20Participaci%C3%B3n%20Ciudadana%20y%20Control%20Social%20-%20Sustitutiva%20ORDM-187.pdf",
+       accesskey: "0" do %><%= "Ordenanza Metropolitana N° 102 (2016)" %><% end %>.</p>
+      <p>Para facilitar el seguimiento y control ciudadano, la información sobre las obras implementadas
+       y proyectos de desarrollo social como parte del presupuesto participativo, serán difundidos a través
+        de la plataforma de participación ciudadana <%= link_to root_path, accesskey: "0" do %>
+        <%= setting["org_name"] %><% end %>. 
+        Además, podrás ver las actas de presupuestos participativos a través del siguiente link: 
+        <%= link_to "http://gobiernoabierto.quito.gob.ec/?page_id=3251", "http://gobiernoabierto.quito.gob.ec/?page_id=3251" %></p>
+    </div>
+  </div>
+</div>

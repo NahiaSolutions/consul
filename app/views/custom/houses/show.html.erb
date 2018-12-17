@@ -1,0 +1,26 @@
+<!--Option: Casas-->
+    <% if params[:option] == 'houses' %>
+        <%= render  "show_house" %>
+    <% end %>
+
+    <!--Ver Talleres de cada casa-->
+    <% if params[:workshops] == 'ver' %>
+        <%= render  "show_house_workshops" %>
+    <% end %>
+
+    <!--Ver taller-->
+    <% if params[:workshops] == 'verTaller'%>
+        <%= render "show_workshop" %>
+    <% end %>
+
+    <% if params[:register] == 'reg' || params[:register] == 'erase' %>
+        <%= render "register" %>
+    <% end %>
+
+<!--FIN Option: Casas-->
+
+<!--Option: Talleres-->
+    <% if params[:option] == 'workshop' %>
+        <%= render "show_workshop_wor" %>
+    <% end %>
+<!--FIN Option: Talleres-->

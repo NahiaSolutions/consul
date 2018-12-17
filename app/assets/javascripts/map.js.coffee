@@ -73,15 +73,29 @@ App.Map =
 
     openMarkerPopup = (e) ->
       marker = e.target
-
       $.ajax 'investments/' + marker.options['id'] + '/json_data',
+        type: 'GET'
+        dataType: 'json'
+        success: (data) ->
+          console.log('investments/' + marker.options['id'] + '/json_data')
+          console.log("DATA1-------------------------------------")
+          console.log(data)
+          e.target.bindPopup(getPopupContent(data)).openPopup()
+
+    openMarkerPopupHouse = (e) ->
+      marker = e.target
+      $.ajax 'houses/' + marker.options['id'] + '/json_data',
         type: 'GET'
         dataType: 'json'
         success: (data) ->
           e.target.bindPopup(getPopupContent(data)).openPopup()
 
     getPopupContent = (data) ->
-      content = "<a href='/budgets/#{data['budget_id']}/investments/#{data['investment_id']}'>#{data['investment_title']}</a>"
+      console.log(data['house_id'])
+      if data['investment_id'] != undefined
+        content = "<a href='/budgets/#{data['budget_id']}/investments/#{data['investment_id']}'>#{data['investment_title']}</a>"
+      if data['house_id'] != undefined
+        content = "<a href='houses/#{data['house_name']}?houseid=#{data['house_id']}&option=houses'>#{data['house_name']}</a>"
       return content
 
     mapCenterLatLng  = new (L.LatLng)(mapCenterLatitude, mapCenterLongitude)
@@ -100,9 +114,13 @@ App.Map =
       for i in addMarkerInvestments
         if App.Map.validCoordinates(i)
           marker = createMarker(i.lat, i.long)
-          marker.options['id'] = i.investment_id
-
-          marker.on 'click', openMarkerPopup
+          #Si son coordenadas de presupuestos o casas
+          if i.house_id != null
+            marker.options['id'] = i.house_id
+            marker.on 'click', openMarkerPopupHouse
+          if i.investment_id != null
+            marker.options['id'] = i.investment_id
+            marker.on 'click', openMarkerPopup
 
   toggleMap: ->
       $('.map').toggle()

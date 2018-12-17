@@ -1,0 +1,149 @@
+<% content_for :body_class, "home-page" %>
+<div class="row fila">
+    <%= back_link_to namespaced_house_path(@house.name, :option => 'houses', :houseid => @house.id) %>
+    
+    <div class="text-center">
+        <h4 class="tituloPrograma"><span style="border-bottom: 5px solid #72b951;"><%= @house.name %> - Talleres</span></h4>
+    </div>
+
+    <% if @ageOptions.any? %>
+    <div style="text-align: center">
+        <input type="hidden" value="<%= @house.id %>" id="house_id">
+        <%= collection_select(:houses_age_range, :id, @ageOptions, :id, :name, {}, {style:"width: 30%"}) %>
+    </div>
+    <% else %>
+        <div class="row"><br>
+            <div class="small-12 column">
+                <div class="callout primary">
+                    <%= "No existen talleres en esta casa" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <h2 class='text-center'>Futuros</h2>
+    <%= @workshop%>
+    <div id="cardsWorkshops">
+        <!--Aqui lo que devuelve el script-->
+    </div>
+
+    <h2 class='text-center'>En curso</h2>
+        <div id="cardsWorkshopsCurso">
+        <!--Aqui lo que devuelve el script-->
+    </div>
+
+    <h2 class='text-center'>Pasados</h2>
+        <div id="cardsWorkshopsPasados">
+        <!--Aqui lo que devuelve el script-->
+    </div>
+</div>
+
+<script>
+    //cargar la imagen del taller con js
+    function cargarImagen(id){
+        var img = "";
+        $.ajax({
+            url: "../age_ranges?id="+id,
+            async: false,
+            success: function(result){
+                if(result != null && result != "" && result != undefined){
+                    img = result;
+                }
+            }
+        });
+        return img;
+    }
+
+    function loadWorkshops(){
+        $.ajax({url: "../age_ranges?id="+$("#houses_age_range_id").val()+"&idHouse="+$("#house_id").val(),
+            success: function(result){
+                result = result.replace(/&quot;/g, '"');  
+                var workshop = JSON.parse(result);
+                $("#cardsWorkshops").html("");
+                var workF = "";
+                var workC = "";
+                var workP = "";
+                for(var i = 0; i < workshop.length; i++){
+                    var work= "<div class='card small-12 medium-6 column margin-bottom end large-4' style='border:0px !important;' data-equalizer-watch>"+
+                                "<a href='/houses/"+'<%= @house.name %>'+"?houseid="+'<%= @house.id %>'+"&workshopid="+workshop[i].id+"&workshops=verTaller'>"+
+                                    "<figure class='figure-card'>"+
+                                        "<div class='gradient'></div>";
+                                            var imagen = cargarImagen(workshop[i].id);
+                                            if(imagen != null && imagen != "" && imagen != undefined){
+                                                work +="<img id='img-"+workshop[i].id+"' alt='' src='"+imagen+"'>";
+                                            }
+                                            else if(workshop[i].photo != null){
+                                                work +="<img alt='/assets/"+workshop[i].photo+"' src='/assets/"+workshop[i].photo+"'>";
+                                            }
+                                            else {
+                                                work +="<img id='img-"+workshop[i].id+"' alt='' src='/assets/voluntDefault.jpg'>";
+                                            }
+                                        work +="<figcaption>"+
+                                            "<span>Ver taller</span><br>"+
+                                            "<h3>"+workshop[i].name+"</h3>"+
+                                        "</figcaption>"+
+                                    "</figure>"+
+                                    "<div class='row'>"+
+                                        "<div class='column columna2'>"+
+                                            "<h6 class='subtituloCasa'>Horario:</h6>"+
+                                            "<p class='textCartaCasa'>"+workshop[i].schedule+"</p>"+
+                                            "<h6 class='subtituloCasa'>Rango de edad:</h6>"+
+                                            "<p class='textCartaCasa'>"+$("#houses_age_range_id :selected").text()+"</p>"+
+                                            "<h6 class='subtituloCasa'>Nombre del responsable:</h6>"+
+                                            "<p class='textCartaCasa'>"+workshop[i].teacher+"</p>"+
+                                            "<h6 class='subtituloCasa'>Cupos disponibles:</h6>";
+                                            if(workshop[i].quota > 0 && (workshop[i].status == "futuro" || workshop[i].status == "curso")){
+                                                work +="<p class='textCartaCasa'>"+workshop[i].quota+"</p>";
+                                            }else{
+                                                work +="<p class='textCartaCasa'>No existen cupos disponibles</p>";
+                                            }
+                            work += "</div>"+
+                                        "<div class='column columna2 padding text-center'>"+
+                                            <% if @house.disability_access == true %>
+                                                '<%= image_tag "disability_access.png" %>'+
+                                            <% end %>
+                                        "</div>"+
+                                    "</div>"+
+                                "</a>"+
+                            "</div>";
+
+                    if(workshop[i].status == "futuro"){
+                        workF += work;
+                    }else if(workshop[i].status == "curso"){
+                        workC += work;
+                    }else if(workshop[i].status == "pasado"){
+                        workP += work;
+                    }
+                }
+                $("#cardsWorkshops").html(workF);
+                $("#cardsWorkshopsCurso").html(workC);
+                $("#cardsWorkshopsPasados").html(workP);
+
+                if($("#cardsWorkshops").html()==""){
+                    $("#cardsWorkshops").html("<div class='small-12 column'>"+
+                                                "<div class='callout primary'>"+
+                                                    "<%= 'No existen talleres futuros' %>"+
+                                                "</div>"+
+                                            "</div>");
+                }
+                if($("#cardsWorkshopsCurso").html()==""){
+                    $("#cardsWorkshopsCurso").html("<div class='small-12 column'>"+
+                                                "<div class='callout primary'>"+
+                                                    "<%= 'No existen talleres en curso' %>"+
+                                                "</div>"+
+                                            "</div>");
+                }
+                if($("#cardsWorkshopsPasados").html()==""){
+                    $("#cardsWorkshopsPasados").html("<div class='small-12 column'>"+
+                                                "<div class='callout primary'>"+
+                                                    "<%= 'No existen talleres pasados' %>"+
+                                                "</div>"+
+                                            "</div>");
+                }
+            }
+        });
+    }
+    $("#houses_age_range_id").change(function(){
+        loadWorkshops();
+    });
+    loadWorkshops();
+</script>

@@ -1,0 +1,117 @@
+<% content_for :body_class, "home-page" %>
+<div class="row fila">
+    <%= back_link_to houses_path(:option => 'workshop') %>
+
+    <div class="text-center">
+        <h4 class="tituloPrograma"><span style="border-bottom: 5px solid #72b951;">
+            <%= @workshopWor.name %>
+        </span></h4>
+        <h4 style="text-align: center"><%= @workshopWor.short_description %></h4>
+    </div>
+
+    <div class="column columna2">
+        <h4 class="descrPrograma">Edad:</h4>
+        <h4><%= @workshopAgeRange.name %></h4>
+        <h4 class="descrPrograma">Descripción:</h4>
+        <p style="text-align: justify !important"><%= @workshopWor.long_description %></p>
+    </div>
+
+    <div class="column columna2">
+        <br>
+        <% if @workshopWor.photo.present? %>
+            <%= image_tag(@workshopWor.photo, alt: @workshopWor.photo) %>
+        <% elsif @workshopWor.image.present?%>
+            <%= image_tag @workshopWor.image_url(:large) %>
+        <% else %>
+            <%= image_tag("voluntDefault.jpg") %>
+        <% end %>
+    </div>
+
+    <!--Casas donde hay este taller-->
+    <h2 style="text-align: center">Casas en las que se imparte <%= @workshopWor.name %></h2>
+        <% if @otherHouses.any?%>
+        <% @otherHouses.each do |house| %>
+
+            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                <%= link_to namespaced_house_path(house.name, :option => 'houses', :houseid => house.id) do %>
+                    <figure class="figure-card">
+                            <div class="gradient"></div>
+                            <% if house.image.present?%>
+                                <%= image_tag house.image_url(:large) %>
+                            <% elsif house.photo.present? %>
+                                <%= image_tag(house.photo, alt: house.photo) %>
+                            <% else %>
+                                <%= image_tag("casasDefault.jpg") %>
+                            <% end %>
+                        <figcaption>
+                            <span><%= "Ver casa" %></span><br>
+                            <h3><%= house.name %></h3>
+                        </figcaption>
+                    </figure>
+                    <div class="row">
+                        <div class="column columna2">
+                            <h6 class="subtituloCasa">Dirección:</h6>
+                            <p class="textCartaCasa"><%= house.address%></p>
+                            <h6 class="subtituloCasa">Horario:</h6>
+                            <p class="textCartaCasa"><%= house.schedule%></p>
+                            <h6 class="subtituloCasa">Teléfono:</h6>
+                            <p class="textCartaCasa"><%= house.phone%></p>
+                            <h6 class="subtituloCasa">Email:</h6>
+                            <p class="textCartaCasa"><%= house.email%></p>
+                        </div>
+                        <div class="column columna2 padding text-center">
+                            <% if house.disability_access == true %>
+                                <%= image_tag "disability_access.png"%>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
+        <% end %> 
+    <% else %>
+        <div class="row"><br>
+            <div class="small-12 column">
+                <div class="callout primary">
+                    <%= "No existen el taller #{@workshopWor.name} en otras casas" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+    <!--Otros talleres para esta edad-->
+    <h2 style="text-align: center">Otros talleres para <%= @workshopAgeRange.name %>:</h2>
+    <% if @otherWorkshops.any?%>
+        <% @otherWorkshops.each do |workshop| %>
+
+            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                <%= link_to namespaced_house_path(workshop.name, :option => 'workshop', :workshopname => workshop.name) do %>
+                    <figure class="figure-card">
+                            <div class="gradient"></div>
+                            <% if workshop.photo.present? %>
+                                <%= image_tag(workshop.photo, alt: workshop.photo) %>
+                            <% elsif workshop.image.present?%>
+                                <%= image_tag workshop.image_url(:large) %>
+                            <% else %>
+                                <%= image_tag("voluntDefault.jpg") %>
+                            <% end %>
+                        <figcaption>
+                            <span><%= "Ver casa" %></span><br>
+                            <h3><%= workshop.name %></h3>
+                        </figcaption>
+                    </figure>
+                    <h6 class="subtituloCasa">Descripción:</h6>
+                    <p class="textCartaCasa" style="text-align: justify"><%= workshop.short_description%></p>
+                <% end %>
+            </div>
+
+        <% end %>
+    <% else %>
+        <div class="row"><br>
+            <div class="small-12 column">
+                <div class="callout primary">
+                    <%= "No existen otros talleres para #{@workshopAgeRange.name}" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

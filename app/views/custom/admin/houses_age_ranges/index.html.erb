@@ -1,0 +1,41 @@
+<div>
+    <h2 class="inline-block">CASA SOMOS: RANGO DE EDADES</h2>
+    <% if @ageRanges.any? %>
+        <%= link_to "Crear nuevo rango de edad",
+                    new_admin_houses_age_range_path,
+                    class: "button float-right margin-right" %>
+
+        <table>
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Edad</th>
+                <th>Editar Edad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @ageRanges.each do |age| %>
+                <tr id="<%= dom_id(age) %>" class="budget">
+                    <td>
+                    <%= age.id %>
+                    </td>
+                    <td class="small">
+                    <%= age.name %>
+                    </td>
+                    <td>
+                        <%= link_to "editar",
+                            edit_admin_houses_age_range_path(age),
+                            class: "button hollow medium" %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+    <% else %>
+        <%= link_to "Crear nuevo rango de edad",
+                    new_admin_houses_age_range_path,
+                    class: "button float-right margin-right" %>
+        <h2>No existen rangos de edad</h2>
+    <% end %>
+</div>

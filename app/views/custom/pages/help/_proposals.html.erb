@@ -1,0 +1,23 @@
+<div class="row section-content">
+  <div class="small-12 column">
+    <h3 id="proposals" data-magellan-target="proposals">
+      <%= t("pages.help.proposals.title") %>
+    </h3>
+
+    <p class="lead">
+      <strong><%= "¿Cómo hacer realidad tú Idea?" %></strong>
+    </p>
+    <div style="padding-left: 3%;">
+    <p>1. Propón una Idea Ciudadana.</p>
+    <p>2. Si obtiene los apoyos suficientes, pasará a votación.</p>
+    </div>
+    <p>Las Ideas Ciudadanas son una oportunidad para que las/os vecinas/os y colectivos
+      decidan directamente cómo quieren que sea su ciudad. Cualquier persona puede proponer 
+      una Idea sobre un tema que le interese o preocupe, para que el Municipio del Distrito Metropolitano
+      de Quito la lleve a cabo después de conseguir los apoyos suficientes y de someterse a votación ciudadana.</p>
+    <p>Para crear una Idea hay que registrarse en <%= link_to new_user_registration_path, accesskey: "0" do %><%= setting["org_name"] %><% end %>. Las Ideas que consigan el apoyo del 0.25% de la población
+      del censo del Distrito Metropolitano de Quito (2.239.191 de habitantes - INEC, 2010), pasan a votación una vez que han pasado una revisión de factibilidad técnica realizada por la entidad municipal correspondiente. Para apoyar
+      Ideas es necesario tener una cuenta verificada.</p>
+    <p>Se convoca una votación ciudadana cuando las Ideas consiguen los apoyos necesarios.</p>
+  </div>
+</div>

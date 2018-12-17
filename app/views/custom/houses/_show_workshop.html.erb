@@ -1,0 +1,234 @@
+<% content_for :body_class, "home-page" %>
+<div class="row fila">
+    <%= back_link_to namespaced_house_path(@house.name, :houseid => @house.id, :workshops => 'ver') %>
+    <div class="text-center">
+        <h1 class="tituloPrograma"><span style="border-bottom: 5px solid #72b951;">
+            <%= @workshop.name %> - <%= @house.name %>
+        </span></h1>
+        <% if @house.disability_access == true %>
+            <%= image_tag "disability_access.png", style: 'padding:10px;'%>
+        <% end %>
+        <h4 style="text-align:center !important"> <%= @workshop.short_description.html_safe %></h4>
+    </div>
+    <div>
+        <div class="column columna2">
+            <h4 class="descrPrograma">Horario:</h4>
+            <h4><%= @workshop.schedule %></h4>
+            <h4 class="descrPrograma">Rango de edad:</h4>
+            <h4><%= @workshopAgeRange.name %></h4>
+            <h4 class="descrPrograma">Nombre del responsable:</h4>
+            <h4><%= @workshop.teacher %></h4>
+            <h4 class="descrPrograma">Cupos disponibles:</h4>
+            <% if @workshop.quota > 0 && (@workshop.status == "futuro" || @workshop.status == "curso")%>
+                <h4><%= @workshop.quota %> cupos</h4>  
+            <% else %>
+                <h4>No existen cupos disponibles</h4> 
+            <% end %>
+            <div>
+                <% if user_signed_in? %>
+                    <% if  @workshop.quota < 1 %>
+                        <% if @workshop_user.present? %>
+                            <div class="callout primary" style="text-align:center !important">
+                                <%if @workshop_user.status == 0 %>
+                                    <h4 class="descrPrograma" >En la lista de espera</h4>
+                                    <%= link_to "Anular inscripción en lista de espera", namespaced_house_path(@house.name, :register => 'erase', :houseid => @house.id,
+                                        :workshopid => @workshop.id),
+                                        {:class => "delete", :style=>"color:#cf2a0e !important;",
+                                        data: {confirm: "¿Anular inscripción en #{@workshop.name} en la casa #{@house.name}?"}} %>
+                                <% elsif @workshop_user.status == 1 %>
+                                    <h4 class="descrPrograma">Ya estás inscrito en este taller</h4>
+                                    <%= link_to "Anular inscripción", namespaced_house_path(@house.name, :register => 'erase', :houseid => @house.id,
+                                    :workshopid => @workshop.id),
+                                    {:class => "delete", :style=>"color:#cf2a0e !important;",
+                                    data: {confirm: "¿Anular inscripción #{@workshop.name} en la casa #{@house.name}?"}} %>
+                                <% end %>
+                            </div>
+                        <% else %>
+                            <% if @workshop.status == "futuro" || @workshop.status == "curso" %>
+                                <br>
+                                <%= link_to "Inscribirme en lista de espera", namespaced_house_path(@house.name, :register => 'reg', :houseid => @house.id,
+                                    :workshopid => @workshop.id),
+                                    class: "button",
+                                    data: {confirm: "¿Inscribirse en #{@workshop.name} en la casa #{@house.name} en la lista de espera?"} %>
+                            <% else %>
+                                <%if @workshop.status == "curso"%>
+                                    <h4 class="descrPrograma"><%= "No puedes inscribirte en un taller en #{@workshop.status}"%></h4>
+                                <% else %>
+                                    <h4 class="descrPrograma"><%= "No puedes inscribirte en un taller #{@workshop.status}"%></h4>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    <% else %>
+                        <% if @workshop_user.present? %>
+                            <div class="callout primary" style="text-align:center !important">
+                                <%if @workshop_user.status == 0 %>
+                                    <h4 class="descrPrograma">En la lista de espera</h4>
+                                    <%= link_to "Anular inscripción en lista de espera", namespaced_house_path(@house.name, :register => 'erase', :houseid => @house.id,
+                                        :workshopid => @workshop.id),
+                                        {:class => "delete", :style=>"color:#cf2a0e !important;text-align:center !important;",
+                                        data: {confirm: "¿Anular inscripción en #{@workshop.name} en la casa #{@house.name}?"}} %>
+                                <% elsif @workshop_user.status == 1 %>
+                                    <h4 class="descrPrograma">Ya estás inscrito en este taller</h4>
+                                    <%= link_to "Anular inscripción", namespaced_house_path(@house.name, :register => 'erase', :houseid => @house.id,
+                                    :workshopid => @workshop.id),
+                                    {:class => "delete", :style=>"color:#cf2a0e !important;text-align:center !important;",
+                                    data: {confirm: "¿Anular inscripción #{@workshop.name} en la casa #{@house.name}?"}} %>
+                                <% end %>
+                            </div>
+                        <% else %>
+                            <% if @workshop.status == "futuro" || @workshop.status == "curso" %>
+                                <br>
+                                <%= link_to "Inscribirme", namespaced_house_path(@house.name, :register => 'reg', :houseid => @house.id,
+                                    :workshopid => @workshop.id),
+                                    class: "button",
+                                    data: {confirm: "¿Inscribirse en #{@workshop.name} en la casa #{@house.name}?"} %>
+                            <% else %>
+                                <%if @workshop.status == "curso"%>
+                                    <h4 class="descrPrograma"><%= "No puedes inscribirte en un taller en #{@workshop.status}"%></h4>
+                                <% else %>
+                                    <h4 class="descrPrograma"><%= "No puedes inscribirte en un taller #{@workshop.status}"%></h4>
+                                <% end %>
+                            <% end %>
+                        <% end %>
+                    <% end %>                   
+                <% elsif !user_signed_in? %>
+                    <strong><%= t("votes.unauthenticated",
+                        signin: link_to(t("votes.signin"), new_user_session_path),
+                        signup: link_to(t("votes.signup"), new_user_registration_path)).html_safe %></strong>
+                <% end %>
+            </div>                     
+        </div>
+        <div class="column columna2">
+            <!--Aqui las imagenes del carousel-->
+            <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+                <div class="orbit-wrapper">
+                    <div class="orbit-controls">
+                    <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+                    <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+                    </div>
+                    <ul class="orbit-container">
+                    <li class="is-active orbit-slide">
+                        <figure class="orbit-figure">
+                            <% if @workshop.image.present?%>
+                                <%= image_tag @workshop.image_url(:large), class:'orbit-image', alt:'Image' %>
+                            <% elsif @workshop.photo.present? %>
+                                <%= image_tag @workshop.photo, class:'orbit-image', alt:'Image' %>
+                            <% else %>
+                                <%= image_tag "voluntDefault.jpg", class:'orbit-image', alt:'Image' %>
+                            <% end %>
+                            
+                        </figure>
+                    </li>
+                    <% @workshop.workshop_images.each do |image| %>
+                        <li class="orbit-slide">
+                            <figure class="orbit-figure">
+                            <%= image_tag image.image_url(:large), class:'orbit-image', alt:'image' %>
+                            </figure>
+                        </li>
+                    <% end %>
+                    </ul>
+                </div>
+                <nav class="orbit-bullets">
+                    <button class="is-active" data-slide="0"><span class="show-for-sr">First slide details.</span><span class="show-for-sr">Current Slide</span></button>
+                    <% @workshop.workshop_images.each_with_index do |image, index| %>
+                        <button data-slide='<%= index + 1%>'><span class="show-for-sr">Second slide details.</span></button>
+                    <% end %>
+                </nav>
+            </div>
+
+        </div>
+        <div>
+            <h4 class="descrPrograma">Descripción:</h4>
+            <h4 style="text-align: justify"><%= @workshop.long_description.html_safe %></h4>
+        </div>
+    </div>
+
+    <!--Otros Talleres para el rango de edad-->
+    <h2 style="text-align: center"><%= @workshop.name %> en otras casas somos:</h2>
+    <% if @otherHouses.any?%>
+        <% @otherHouses.each do |house| %>
+
+            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                <%= link_to namespaced_house_path(house.name, :option => 'houses', :houseid => house.id) do %>
+                    <figure class="figure-card">
+                            <div class="gradient"></div>
+                            <% if house.image.present?%>
+                                <%= image_tag house.image_url(:large) %>
+                            <% elsif house.photo.present? %>
+                                <%= image_tag(house.photo, alt: house.photo) %>
+                            <% else %>
+                                <%= image_tag("casasDefault.jpg") %>
+                            <% end %>
+                        <figcaption>
+                            <span><%= "Ver casa" %></span><br>
+                            <h3><%= house.name %></h3>
+                        </figcaption>
+                    </figure>
+                    <div class="row">
+                        <div class="column columna2">
+                            <h6 class="subtituloCasa">Dirección:</h6>
+                            <p class="textCartaCasa"><%= house.address%></p>
+                            <h6 class="subtituloCasa">Horario:</h6>
+                            <p class="textCartaCasa"><%= house.schedule%></p>
+                            <h6 class="subtituloCasa">Teléfono:</h6>
+                            <p class="textCartaCasa"><%= house.phone%></p>
+                            <h6 class="subtituloCasa">Email:</h6>
+                            <p class="textCartaCasa"><%= house.email%></p>
+                        </div>
+                        <div class="column columna2 padding text-center">
+                            <% if house.disability_access == true %>
+                                <%= image_tag "disability_access.png"%>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
+        <% end %> 
+    <% else %>
+        <div class="row"><br>
+            <div class="small-12 column">
+                <div class="callout primary">
+                    <%= "No existe el taller #{@workshop.name} en otras casas" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+
+
+    <h2 style="text-align: center">Otros talleres para <%= @workshopAgeRange.name %>:</h2>
+    <% if @otherWorkshops.any?%>
+        <% @otherWorkshops.each do |workshop| %>
+
+            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                <%= link_to namespaced_house_path(@house.name, :houseid => workshop.house_id, :workshopid => workshop.id, :workshops => 'verTaller') do %>
+                    <figure class="figure-card">
+                            <div class="gradient"></div>
+                            <% if workshop.image.present?%>
+                                <%= image_tag workshop.image_url(:large) %>
+                            <% elsif workshop.photo.present? %>
+                                <%= image_tag(workshop.photo, alt: workshop.photo) %>
+                            <% else %>
+                                <%= image_tag("voluntDefault.jpg") %>
+                            <% end %>
+                        <figcaption>
+                            <span><%= "Ver casa" %></span><br>
+                            <h3><%= workshop.name %></h3>
+                        </figcaption>
+                    </figure>
+                    <h6 class="subtituloCasa">Descripción:</h6>
+                    <p class="textCartaCasa" style="text-align: justify"><%= workshop.short_description%></p>
+                <% end %>
+            </div>
+
+        <% end %>
+    <% else %>
+        <div class="row"><br>
+            <div class="small-12 column">
+                <div class="callout primary">
+                    <%= "No existen otros talleres para #{@workshopAgeRange.name}" %>
+                </div>
+            </div>
+        </div>
+    <% end %>
+</div>

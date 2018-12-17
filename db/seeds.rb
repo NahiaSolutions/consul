@@ -1,7 +1,10 @@
 # coding: utf-8
 # Default admin user (change password after first deploy to a server!)
 if Administrator.count == 0 && !Rails.env.test?
-  admin = User.create!(username: 'admin', email: 'admin@consul.dev', password: '12345678', password_confirmation: '12345678', confirmed_at: Time.current, terms_of_service: "1")
+  admin = User.create!(username: 'admin', userlastname: 'admin', document_type: 'Cédula',
+  document_number: '0123456789', date_of_birth: '1999-12-31 23:00:00', email: 'mdarquea@nahiasolutions.com',
+  user_parish: 'No', user_neighborhood: 'No', phone_number: '0995201346',
+  password: '12345678', password_confirmation: '12345678', confirmed_at: Time.current, terms_of_service: "1")
   admin.create_administrator
 end
 
@@ -70,6 +73,8 @@ Setting["meta_description"] = nil
 Setting["meta_keywords"] = nil
 
 # Feature flags
+Setting['feature.volunteerings'] = true
+Setting['feature.houses'] = true
 Setting['feature.debates'] = true
 Setting['feature.proposals'] = true
 Setting['feature.spending_proposals'] = nil
@@ -129,4 +134,3 @@ Setting["feature.user.skip_verification"] = 'true'
 Setting['feature.homepage.widgets.feeds.proposals'] = true
 Setting['feature.homepage.widgets.feeds.debates'] = true
 Setting['feature.homepage.widgets.feeds.processes'] = true
-

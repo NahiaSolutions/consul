@@ -1,0 +1,23 @@
+<% provide :title do %><%= t('pages.titles.privacy') %><% end %>
+<% content_for :canonical do %>
+  <%= render "shared/canonical", href: page_url("privacy") %>
+<% end %>
+
+<div class="row margin-top">
+
+  <div class="small-12 medium-9 column">
+    <h1><%= t("pages.privacy") %></h1>
+
+    <ol>
+      <li>La navegación por la información disponible en la Plataforma Quito Decide es anónima.</li>
+      <li>Para utilizar los servicios contenidos en esta Plataforma el usuario, deberá registrarse y proporcionar previamente los datos de carácter personal, según la información específica que consta en cada tipo de ítem.</li>
+      <li>Como principio general, este sitio web no comparte ni revela información obtenida, excepto cuando haya sido autorizada por el usuario, o la información sea requerida por la autoridad judicial competente, fiscalía o la policía judicial.</li>
+    </ol>
+  </div>
+
+  <div class="small-12 medium-3 column">
+    <%= render '/shared/print' %>
+  </div>
+
+</div>
+

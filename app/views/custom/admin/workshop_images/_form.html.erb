@@ -1,0 +1,11 @@
+<%= form_for [:admin, @zonalAdministration, @house, @workshop,  @workshopImage]  do |f| %>
+  <%= render 'shared/errors', resource: @workshopImage %>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable:  @workshopImage, f: f %>
+
+  <%= f.hidden_field :workshop_id, value: @workshop.id %>
+
+  <%= f.submit "Guardar" %>
+
+<% end %>

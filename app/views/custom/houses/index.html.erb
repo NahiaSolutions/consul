@@ -1,0 +1,45 @@
+<% provide :title do %><%= "Casa Somos Quito" %><% end %>
+<main>
+    <div class="help-header no-margin-top margin-bottom">
+        <div class="row">
+            <div class="small-12 column">
+                <%= image_tag "help/help_icon_houses.png", class: "align-top", size: "26x26" %>
+                <h1 class="inline-block"><%= "Casa Somos Quito" %></h1>
+                <%= link_to "Ayuda Casa Somos Quito", "#section_help", class: "float-right" %>
+            </div>
+        </div>
+    </div>
+
+    <div class="row fila">
+        <%= render "list_links" %>
+        <!--Opción Casas-->
+        <% if params[:option] == 'houses'%>
+            <%= render "houses_index"%>
+        <!--Talleres-->    
+        <% elsif params[:option] == 'workshop'%>
+            <%= render "workshops_index"%>
+        <% end %>
+    </div>
+
+    <div class="row">
+        <div id="section_help" class="margin small-12 column">
+            <p class="lead">
+              <strong><%= "¿Cómo ser parte de los talleres de Casas Somos Quito?" %></strong>
+            </p>
+            <p>Casas Somos Quito cuenta con diversos talleres gratuitos para todas las edades con el 
+            objetivo de fortalecer el conocimiento y habilidades, y así garantizar un buen uso del tiempo libre.</p>
+            <p>Para participar de los talleres debes:</p>
+            <div style="padding-left: 3%;">
+                <p>1. Regístrate en <%= link_to new_user_registration_path, accesskey: "0" do %><%= setting["org_name"] %><% end %>.</p>
+                <p>2. Busca la casa somos más cercana y dale clic. Puedes buscar por zonas o dar clic en el mapa. 
+                También puedes buscar el listado de <%= link_to houses_path(:option => 'workshop') do %><%= "Talleres" %><% end %> y te dirá en qué casa se encuentra ubicado.</p>
+                <p>3. Una vez que te encuentres en la Casa seleccionada, da clic en Ver Talleres de esta <%= link_to houses_path(:option => 'houses') do %><%= "Casa" %><% end %>, 
+                selecciona el que más te gusta y da clic en Inscribirme.</p>
+                <p>4. ¡Listo! Ya estás inscrita/o para participar en el taller. Recuerda llegar puntual en la hora y fecha establecida,
+                y llevar tu documento de identificación para presentarlo antes de iniciar el taller.</p>
+            </div>
+            <p>Si quieres ser tallerista en cualquiera de las Casas Somos del Distrito, comunícate con el responsable de cada Casa 
+            mediante correo electrónico, o presentante directamente.</p>
+        </div>
+    </div>
+</main>

@@ -1,0 +1,8 @@
+<%= form_for [:houses_admin, @ageRange]  do |f| %>
+  <% render 'shared/errors', resource: @ageRange %>
+
+  <%= f.label :name, "Nombre" %>
+  <%= f.text_field :name, label: false %>
+
+  <%= f.submit "Guardar" %>
+<% end %>

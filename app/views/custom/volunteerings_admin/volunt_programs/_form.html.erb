@@ -1,0 +1,42 @@
+<%= form_for [:admin, @volunt_category, @volunt_program]  do |f| %>
+  <%= render 'shared/errors', resource: @volunt_program %>
+
+  <%= f.label :title, "Nombre del programa" %>
+  <%= f.text_field :title, label: false %>
+
+  <%= f.label :schedule, "Horario del programa <span><small style='font-weight: normal;'>caracteres permitidos: ( : - / . )</small></span>" %>
+  <%= f.text_field :schedule, placeholder: "Ejem: Lun - Vie de 08:00 a 16:00", label: false %>
+
+  <%= f.label :phone, "Teléfonos <span><small style='font-weight: normal;'>(seraparar numeros con / )</small></span>" %>
+  <%= f.text_field :phone, placeholder: "Ejem: 0995621346/0221346", label: false %>
+
+  <%= f.label :quota, "Numero de Cupos" %>
+  <%= f.number_field :quota, label: false %>
+  
+  <%= f.label :email, "Correo electrónico" %>
+  <%= f.email_field :email, placeholder: "Ejemp: ejemplo@mail.com", label: false %>
+
+  <%= f.label :short_description, "Descripción corta" %>
+  <%= f.text_field :short_description, label: false %>
+
+  <%= f.label :long_description, "Descripción larga" %>
+  <div class="row">
+    <div class="small-12 column">
+      <%= f.text_area :long_description, rows: 8, label: false %>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable: @volunt_program, f: f %>
+  <span><small style='font-weight: normal;'>
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px)
+  </small></span>
+
+  <%= f.hidden_field :volunt_category_id, value: @volunt_category.id %>
+
+  <br>
+
+  <%= f.submit "Guardar" %>
+<% end %>

@@ -1,0 +1,61 @@
+<div class="row fila">
+    <%= back_link_to volunteerings_path %>
+
+    <div class="text-center">
+        <h4 class="tituloPrograma"><span style="border-bottom: 5px solid #72b951;">
+        <%= @volunt_category.name %> - <%= @volunt_program.title %>
+        </span></h4>
+        <h4 style="text-align:center !important"> <%= @volunt_program.short_description %></h4>
+    </div>
+
+    <div class="column columna2">
+        <h4 class="descrPrograma">Horario:</h4> 
+        <h4><%= @volunt_program.schedule %></h4>
+        <h4 class="descrPrograma">Contactos:</h4> 
+        <h4><%= @volunt_program.phone %></h4>
+        <h4 class="descrPrograma">Correo electrónico:</h4> 
+        <h4><%= @volunt_program.email %></h4>
+        <% if @volunt_program.quota < 1 %>
+            <h4 class="descrPrograma">Cupos: No existen cupos disponibles</h4>
+        <% else %>
+            <h4 class="descrPrograma">Cupos:</h4> <h4><%= @volunt_program.quota %> Cupos disponibles</h4>
+        <% end %>
+        <% if @volunt_program.photo.present? %>
+            <%= image_tag(@volunt_program.photo, alt: @volunt_program.photo) %>
+        <% elsif @volunt_program.image.present?%>
+            <%= image_tag @volunt_program.image_url(:large) %>
+        <% else %>
+            <%= image_tag("voluntDefault.jpg") %>
+        <% end %>
+    </div>
+
+    <div class="column columna2">
+        <h4 class="descrPrograma">Descripción:</h4>
+        <p style="text-align:justify !important"><%= @volunt_program.long_description.html_safe %></p>
+        <div class="text-center">
+            <br>
+            <br>
+            <% if user_signed_in? %>
+                <% if  @volunt_program.quota < 1 %>
+                    <h4 class="descrPrograma">No existen cupos disponibles</h4>
+                <% else %>
+                    <% if @volunt_user.present? %>
+                        <h4 class="descrPrograma">Ya estás inscrito en este voluntariado</h4>
+                    <% else %>
+                        <%= link_to "Inscribirme", register_path(:categoryid => @volunt_category.id,
+                            :programid => @volunt_program.id),
+                            class: "button",
+                            data: {confirm: "¿Inscribirse en #{@volunt_program.title}?"} %>
+                    <% end %>
+                <% end %>                   
+            <% elsif !user_signed_in? %>
+                <strong><%= t("votes.unauthenticated",
+                    signin: link_to(t("votes.signin"), new_user_session_path),
+                    signup: link_to(t("votes.signup"), new_user_registration_path)).html_safe %></strong>
+            <% elsif  @volunt_program.quota < 1 %>
+                
+            <% end %>
+        </div>
+    </div>
+
+</div>

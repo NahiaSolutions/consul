@@ -1,0 +1,98 @@
+<% content_for :body_class, "home-page" %>
+<% if @houses.any? %>
+    <div class="text-center">
+        <ul class="no-bullet submenu">
+            <li class="inline-block" data-magellan>
+                <%= link_to "Lista", "#section-help-1" %>
+            </li>
+            <li class="inline-block" data-magellan>
+                <%= link_to "Mapa", "#section-help-2" %>
+            </li>
+        </ul>
+    </div>
+
+    <div id="section-help-1" class="no-margin-top">
+        <br>
+        <% @zonal_administration.each do |administration| %> 
+            <% if @houses.where(:zonal_administration_id => administration.id).any? %>
+                <div class="margin">
+                    <div data-equalizer data-equalizer-on="medium">
+                        <h2 class="text-center"><%= administration.name%></h2>
+                        <% @houses.where(:zonal_administration_id => administration.id).each do |house| %>
+
+                            <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                                <%= link_to namespaced_house_path(house.name, :option => 'houses', :houseid => house.id) do %>
+                                    <figure class="figure-card">
+                                            <div class="gradient"></div>
+                                            <% if house.image.present?%>
+                                                <%= image_tag house.image_url(:large) %>
+                                            <% elsif house.photo.present? %>
+                                                <%= image_tag(house.photo, alt: house.photo) %>
+                                            <% else %>
+                                                <%= image_tag("casasDefault.jpg") %>
+                                            <% end %>
+                                        <figcaption>
+                                            <span><%= "Ver casa" %></span><br>
+                                            <h3><%= house.name %></h3>
+                                        </figcaption>
+                                    </figure>
+                                    <div class="row">
+                                        <div class="column columna2">
+                                            <h6 class="subtituloCasa">Dirección:</h6>
+                                            <p class="textCartaCasa"><%= house.address%></p>
+                                            <h6 class="subtituloCasa">Horario:</h6>
+                                            <p class="textCartaCasa"><%= house.schedule%></p>
+                                            <h6 class="subtituloCasa">Teléfono:</h6>
+                                            <p class="textCartaCasa"><%= house.phone%></p>
+                                            <h6 class="subtituloCasa">Email:</h6>
+                                            <p class="textCartaCasa"><%= house.email%></p>
+                                        </div>
+                                        <div class="column columna2 padding text-center">
+                                            <% if house.disability_access == true %>
+                                                <%= image_tag "disability_access.png"%>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            </div>
+
+                        <% end %>
+                    </div>
+                </div>
+            <% end %> 
+        <%end%>
+    </div>
+
+    <div class="margin">
+        <div class="text-center">
+            <ul class="no-bullet submenu">
+                <li class="inline-block" data-magellan>
+                    <%= link_to "Lista", "#section-help-1" %>
+                </li>
+                <li class="inline-block" data-magellan>
+                    <%= link_to "Mapa", "#section-help-2" %>
+                </li>
+            </ul>
+        </div>
+        <div id="section-help-2" class="row fila">
+            <h3>Casas localizables geográficamente</h3>
+            <%= render_map(nil, "houses", false, nil, @houses_coordinates) %>
+        </div>
+    </div>
+
+<% else %>
+    <div class="row">
+        <div class="small-12 column">
+            <div class="callout primary">
+                <%= "No existen casas para mostrar" %>
+            </div>
+        </div>
+    </div>
+<% end %>
+
+    
+    
+
+
+
+                

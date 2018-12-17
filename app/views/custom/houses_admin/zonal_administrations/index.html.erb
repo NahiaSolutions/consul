@@ -1,0 +1,52 @@
+<div>
+    <h2 class="inline-block">CASA SOMOS: ADMINISTRACIONES ZONALES</h2>
+    <% if @zonalAdministration.any? %>
+        <%= link_to "Crear nueva administración",
+                    new_houses_admin_zonal_administration_path,
+                    class: "button float-right margin-right" %>
+        <table>
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Administracion</th>
+                <th>Editar Administracion</th>
+                <th>Eliminar Administracion</th>
+                <th>Casas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @zonalAdministration.each do |administration| %>
+                <tr id="<%= dom_id(administration) %>" class="budget">
+                    <td>
+                    <%= administration.id %>
+                    </td>
+                    <td class="small">
+                    <%= administration.name %>
+                    </td>
+                    <td>
+                        <%= link_to "editar",
+                            edit_houses_admin_zonal_administration_path(administration),
+                            class: "button hollow medium" %>
+                    </td>
+                    <td>
+                        <%= link_to "eliminar",
+                            houses_admin_zonal_administration_path(administration),
+                            method: :delete, class: "button hollow alert",
+                            data: {confirm: "Eliminar #{administration.name}?"} %>
+                    </td>
+                    <td>
+                        <%= link_to "ver casas",
+                            houses_admin_zonal_administration_path(administration),
+                            class: "button hollow medium" %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% else %>
+        <%= link_to "Crear nueva administración",
+                    new_houses_admin_zonal_administration_path,
+                    class: "button float-right margin-right" %>
+        <h2>No hay ninguna administración zonal</h2>
+    <% end %>
+</div>

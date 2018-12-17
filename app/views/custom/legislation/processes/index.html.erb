@@ -1,0 +1,40 @@
+<% provide :title do %>
+  <%= t("layouts.header.collaborative_legislation") %> - <%= t("legislation.processes.index.filters.#{@current_filter}") %>
+<% end %>
+
+<%= render "shared/section_header", i18n_namespace: "legislation.processes.index.section_header", image: "legislation_processes" %>
+
+<div class="row">
+  <div id="legislation" class="legislation-list small-12 medium-9 column">
+
+    <%= render 'shared/filter_subnav', i18n_namespace: "legislation.processes.index" %>
+
+    <div id="legislation-list">
+      <% if @processes.any? %>
+        <%= render @processes %>
+        <%= paginate @processes %>
+      <% else %>
+        <div class="callout primary margin-top">
+          <%= t(".no_#{@current_filter}_processes") %>
+        </div>
+      <% end %>
+
+      <div id="section_help" class="margin" data-magellan-target="section_help">
+        <p class="lead">
+          <strong>¿Cómo ser parte de Colaboración Normativa?</strong>
+        </p>
+        <p>Participa en los debates y procesos previos a la aprobación de una norma
+         o de un proceso de gestión municipal. Tu opinión será tenida en cuenta por el Municipio.</p>
+        <p>En la colaboración normativa, el Municipio del Distrito Metropolitano de Quito ofrece a la
+         ciudadanía la oportunidad de participar en la elaboración y modificación de normativa que afecta
+          a la ciudad, y de dar su opinión sobre ciertas iniciativas que tiene previsto llevar a cabo.</p>
+        <p>Las personas registradas en <%= link_to new_user_registration_path, accesskey: "0" do %>
+        <%= setting["org_name"] %><% end %> pueden participar con aportaciones en la consulta pública
+         de nuevas ordenanzas, reglamentos, resoluciones, planes especiales y directrices, entre otros.
+          Sus comentarios son analizados por el área correspondiente y de ser factibles, serán incorporados
+           en el documento final.</p>
+
+      </div>
+    </div>
+  </div>
+</div>

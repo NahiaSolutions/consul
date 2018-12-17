@@ -1,0 +1,51 @@
+<div class="text-center no-margin-top margin-bottom">
+    <ul class="no-bullet submenu">
+        <% @volunt_category.each do |category| %>
+            <li class="inline-block" data-magellan>
+                <%= link_to category.name, "#section-help-#{category.id}" %>
+            </li>
+        <%end%>
+    </ul>
+</div>
+
+<% @volunt_category.each do |category| %> 
+    <div id="section-help-<%= category.id %>" class="margin">
+        <div class="row fila">
+            <% if @volunt_program.where(:volunt_category_id => category.id).any? %>
+                <h2 class="text-center"><%= category.name%></h2>
+                <% @volunt_program.where(:volunt_category_id => category.id).each do |program| %>
+                    <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+                        <%= link_to namespaced_volunteering_path(program.title, :categoryid => category.id, :programid => program.id) do %>
+                            <figure class="figure-card">
+                                    <div class="gradient"></div>
+                                    <% if program.photo.present? %>
+                                        <%= image_tag(program.photo, alt: program.photo) %>
+                                    <% elsif program.image.present?%>
+                                        <%= image_tag program.image_url(:large) %>
+                                    <% else %>
+                                        <%= image_tag("voluntDefault.jpg") %>
+                                    <% end %>
+                                <figcaption>
+                                    <span><%= "Ver voluntariado" %></span><br>
+                                    <h3><%= program.title %></h3>
+                                </figcaption>
+                            </figure>
+                            <h6 class="card-subtitle mb-2  subtitulo">Horario:</h6>
+                            <p class="card-text  subtitulo"><%= program.schedule%></p>
+                            <h6 class="card-subtitle mb-2  subtitulo">Contactos:</h6>
+                            <p class="card-text  subtitulo"><%= program.phone%></p>
+                            <h6 class="card-subtitle mb-2  subtitulo">Correo electrónico:</h6>
+                            <p class="card-text  subtitulo"><%= program.email%></p>
+                            <h6 class="card-subtitle mb-2  subtitulo">Cupos:</h6>
+                            <% if program.quota < 1%>
+                                <p class="card-text  subtitulo"> No existen cupos disponibles</p>
+                            <% else %>
+                                <p class="card-text  subtitulo"><%= program.quota%> cupos disponibles</p>
+                            <% end %>
+                        <% end %>
+                    </div>
+                <%end%>
+            <% end %>
+        </div>
+    </div>
+<%end%>

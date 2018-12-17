@@ -1,0 +1,17 @@
+<%= form_for [:houses_admin, @zonalAdministration, @house, @houseNew]  do |f| %>
+  <%= render 'shared/errors', resource: @houseNew %>
+
+  <%= f.label :title, "Título" %>
+  <%= f.text_field :title, placeholder: "Título", label: false %>
+
+  <%= f.label :link, "Link" %>
+  <%= f.text_field :link, placeholder: "link", label: false %>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable: @houseNew, f: f %>
+
+  <%= f.hidden_field :house_id, value: @house.id %>
+
+  <%= f.submit "Guardar" %>
+
+<% end %>

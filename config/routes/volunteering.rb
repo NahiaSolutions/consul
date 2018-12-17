@@ -1,0 +1,3 @@
+resources :volunteerings do
+    
+end

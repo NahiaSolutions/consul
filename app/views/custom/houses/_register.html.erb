@@ -1,0 +1,29 @@
+<div class="row fila">
+    <%= back_link_to houses_path(:option => 'houses') %>
+
+    <% if params[:register] == 'reg' %>
+        <div style="width: 50%">
+        <h1 class="tituloPrograma"> Se ha inscrito satisfactoriamente en </h1>
+        <% if @workshop.quota > 0 %>
+            <h3><%= @workshop.name %> - <%= @house.name %> </h3>
+        <% elsif %>
+            <h3><%= @workshop.name %> - <%= @house.name %> en la lista de espera </h3>
+        <% end %> 
+        <br>
+        <%= image_tag @workshop.photo,  style: 'height:auto;width:50%;'%>
+        </div>
+    <% end %>
+
+    <% if params[:register] == 'erase' %>
+        <div style="width: 50%">
+        <h1 class="tituloPrograma"> Has anulado satisfactoriamente tu inscripción en </h1>
+        <% if @workshop.quota > 0 %>
+            <h3><%= @workshop.name %> - <%= @house.name %> </h3>
+        <% elsif %>
+            <h3><%= @workshop.name %> - <%= @house.name %> en la lista de espera </h3>
+        <% end %>
+        <br>
+        <%= image_tag @workshop.photo,  style: 'height:auto;width:50%;'%>
+        </div>
+    <% end %>
+</div>

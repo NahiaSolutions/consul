@@ -1,0 +1,17 @@
+<h2 style="text-align: center">Noticias</h2>
+<% @houseNews.each do |news| %>
+    <div class="card small-12 medium-6 column margin-bottom end large-4" style="border:0px !important;" data-equalizer-watch>
+        <%= link_to news.link  do %>
+            <figure class="figure-card">
+                <div class="gradient"></div>
+                <% if news.image.present? %>
+                    <%= image_tag news.image_url(:large) %>
+                <% end %>
+                <figcaption>
+                    <span><%= "Ver noticia" %></span><br>
+                    <h3><%= news.title%></h3>
+                </figcaption>
+            </figure>
+        <% end %>
+    </div>
+<% end %>

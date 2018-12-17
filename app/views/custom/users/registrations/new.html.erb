@@ -1,0 +1,310 @@
+<% provide :title do %><%= t("devise_views.users.registrations.new.title") %><% end %>
+<h2><%= t("devise_views.users.registrations.new.title") %></h2>
+
+<!--Spinner Loading-->
+<div id="loader" class="carg-grande ocultar-carg">
+  <div class="sk-three-bounce">
+    <div class="sk-child sk-bounce1"></div>
+    <div class="sk-child sk-bounce2"></div>
+    <div class="sk-child sk-bounce3"></div>
+    <p style="text-aling:center;">Validando</p>
+  </div>
+</div>
+
+<div id="erroresRegistro"></div>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render 'shared/errors', resource: resource %>
+
+  <div class="row">
+    <div class="small-6 column">
+
+      <%= f.hidden_field :use_redeemable_code %>
+      <%= f.hidden_field :locale, value: I18n.locale %>
+
+      <!-- Tipo de Identificación -->
+      <%= f.label :document_type, t("devise_views.users.registrations.new.useridtype_label")%>
+      <%= f.select :document_type, options_for_select(User.id_options, :selected => @selectType), {autofocus: true, label: false, 
+                                                                        :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                        {style:"height: 3rem"}%>
+
+      <!-- Nombres -->
+      <%= f.label :username, t("devise_views.users.registrations.new.username_label") %>
+      <%= f.text_field :username, placeholder: t("devise_views.users.registrations.new.username_label"),
+                                  label: false, :maxlength => 30 %>
+
+      <%= f.invisible_captcha :family_name %>
+
+      <!-- Apellidos -->
+      <%= f.label :userlastname, t("devise_views.users.registrations.new.userlastname_label") %>
+      <%= f.text_field :userlastname, placeholder: t("devise_views.users.registrations.new.userlastname_label"),
+                                  label: false, :maxlength => 30 %>
+
+      <!-- Email -->
+      <%= f.email_field :email, placeholder: t("devise_views.users.registrations.new.email_label"), :maxlength => 50 %>
+
+      <!-- Etnia -->
+      <%= f.label :ethnic_group, t("devise_views.users.registrations.new.userethnic_group_label") %>
+      <%= f.select :ethnic_group, options_for_select(User.ethnic_options, :selected => @selectEthnicGroup), {label: false, 
+                                                                    :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                    {style:"height: 3rem"}%>
+
+       <!-- Estudios -->
+      <%= f.label :studies_level, t("devise_views.users.registrations.new.userstudies_level") %>
+      <%= f.select :studies_level, options_for_select(User.studies_options, :selected => @selectStudies), {label: false, 
+                                                                    :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                    {style:"height: 3rem"}%>
+      <!--Contraseña-->
+      <%= f.label :password, "Contraseña <span><small style='font-weight: normal !important;'>(La contraseña debe tener más de 8 caracteres)</small></span>".html_safe %>
+      <%= f.password_field :password, autocomplete: "off",
+                           placeholder: t("devise_views.users.registrations.new.password_label"), label: false %>
+      <div id="errorPassword" class=" ocultar-carg"><small class='error  error'>La contraseña debe tener más de 8 caracteres</small></div>
+
+    </div>
+
+    <div class="small-6 column">
+
+      <!-- Número de Identificación -->
+      <%= f.label :document_number, t("devise_views.users.registrations.new.userid_label")%>
+      <%= f.text_field :document_number, placeholder: t("devise_views.users.registrations.new.userid_label"),
+                                        label: false, :maxlength => 10%>
+      
+      <!-- Fecha de Nacimiento -->
+      <%= f.label :date_of_birth, t("devise_views.users.registrations.new.userdatebirth_label")%>
+      <%= f.date_field :date_of_birth, as: :date, value: f.object.try(:strftime,"%Y/%m/%d"), label: false%>
+
+      <!-- Género -->
+      <%= f.label :gender, t("devise_views.users.registrations.new.usergender_label") %>
+      <%= f.select :gender, options_for_select(User.gender_options, :selected => @selectGender), {label: false, 
+                                                                    :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                    {style:"height: 3rem"}%>
+      <!-- Teléfono -->
+      <%= f.label :phone_number, t("devise_views.users.registrations.new.userphonenumber_label") %>
+      <%= f.telephone_field :phone_number, placeholder: "0912345678", label: false, :maxlength => 10 %>
+
+      <!-- Parroquia -->
+      <%= f.label :user_parish, t("devise_views.users.registrations.new.userparish_label") %>
+      <%= f.select :user_parish, options_for_select(Parish.parish_options, :selected => @selectParish), {label: false, 
+                                                                    :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                    {style:"height: 3rem"}%>
+      
+      <!-- Barrio -->
+      <%= f.label :user_neighborhood, t("devise_views.users.registrations.new.userneighborhood_label") %>
+      <%= f.select :user_neighborhood, options_for_select(""), {label: false, 
+                                                                    :include_blank => t("devise_views.users.registrations.new.user_selection")},
+                                                                    {style:"height: 3rem"}%>
+      <!--Repetir Contraseña-->
+      <%= f.label :password, "Confirmación de contraseña <span><small style='font-weight: normal !important;'>(Repita la contraseña)</small></span>".html_safe %>
+      <%= f.password_field :password_confirmation, autocomplete: "off",
+                           placeholder: t("devise_views.users.registrations.new.password_confirmation_label"), label: false %>
+      <div id="errorPasswordConf" class=" ocultar-carg"><small class='error  error'>Las contraseñas no coinciden</small></div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <% if resource.use_redeemable_code %>
+      <%= f.text_field :redeemable_code, placeholder: t("devise_views.users.registrations.new.redeemable_code") %>
+    <% end %>
+
+    <div class="small-12" style = "text-align:center">
+      <%= f.label :terms_of_service do %>
+      <%= f.check_box :terms_of_service, title: t('devise_views.users.registrations.new.terms_title'), label: false %>
+      <span class="checkbox">
+        <%= t("devise_views.users.registrations.new.terms",
+            terms: link_to(t("devise_views.users.registrations.new.terms_link"), "/conditions",
+            title: t('shared.target_blank_html'),
+            target: "_blank")).html_safe %>
+      </span>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 medium-6 small-centered">
+      <%= f.submit t("devise_views.users.registrations.new.submit"), class: "button expanded" %>
+    </div>
+  </div>
+
+<% end %>
+ 
+<%= render "devise/shared/links" %>
+
+<script>
+
+
+  //Sacar barrio al inicio
+  function cargaBarrioInicial(){
+    if($("#user_user_parish").val() != ""){
+      $.ajax({
+      url: "../parishes?id="+$("#user_user_parish").val(),
+      success: function(result){
+        result = result.replace(/&quot;/g, '"');
+        var neig = JSON.parse(result);
+        var par = "<option value=''>Seleccione</option>";
+        for(var i = 0; i < neig.length; i++){
+          par += "<option value='"+neig[i].id+"'>"+neig[i].name+"</option>"
+        }
+        $("#user_user_neighborhood").html(par);
+        $("#user_user_neighborhood").val('<%=@selectNeighborhood%>');
+      }});
+    }
+  }
+  cargaBarrioInicial()
+
+  //Parroquias y barrios
+  $("#user_user_parish").change(function(){    
+    $.ajax({
+    url: "../parishes?id="+$("#user_user_parish").val(),
+    success: function(result){
+      result = result.replace(/&quot;/g, '"');
+      var neig = JSON.parse(result);
+      var par = "<option value=''>Seleccione</option>";
+
+      for(var i = 0; i < neig.length; i++){
+         par += "<option value='"+neig[i].id+"'>"+neig[i].name+"</option>"
+      }
+      $("#user_user_neighborhood").html(par);
+    }});
+  });
+
+  //error
+  function crearError(texto){
+    $("#erroresRegistro").html('<div id="error_explanation" data-alert="" class="callout alert" data-closable="">'+
+      ' <button class="close-button" aria-label="Cerrar" type="button" data-close="">'+
+        ' <span aria-hidden="true">×</span>'+
+        '</button>'+
+        '<strong>'+texto+'</strong>'+
+    ' </div>');
+  }
+
+  //error password
+  $("#user_password").focusout(function(){
+  $("#user_password_confirmation").val("");
+    if($("#user_password").val() != ""){
+      if($("#user_password").val().length < 8){
+        $("#errorPassword").removeClass("ocultar-carg");
+      }else{
+        $("#errorPassword").addClass("ocultar-carg");
+      }
+    }
+  });
+  //error password confirmacion
+  $("#user_password_confirmation").focusout(function(){
+    if($("#user_password_confirmation").val() != ""){
+      if($("#user_password").val() != $("#user_password_confirmation").val()){
+        $("#errorPasswordConf").removeClass("ocultar-carg");
+      }else{
+        $("#errorPasswordConf").addClass("ocultar-carg");
+      }
+    }
+  });
+
+  //activa o desactiva el campo de numero de identificación
+  $("#user_document_number").attr("disabled", true);
+  $("#user_username").attr("readonly", true);
+  $("#user_userlastname").attr("readonly", true);
+  $("#user_date_of_birth").attr("readonly", true);
+  $("#user_document_type").change(function(){
+    $("#user_username").val("");
+    $("#user_userlastname").val("");
+    $("#user_date_of_birth").val("");
+    $("#user_document_number").removeClass("visto");
+    if($("#user_document_type").val() == ""){      
+      $("#user_document_number").val("");
+      $("#user_document_number").attr("disabled", true);
+    }else{
+      if($("#user_document_type").val() == "Cédula"){
+        $("#user_document_number").val("");
+        $("#user_document_number").attr("disabled", false);
+      }
+      if($("#user_document_type").val() == "Pasaporte"){
+        $("#user_document_number").val("");
+        $("#user_document_number").attr("disabled", false);
+      }
+    }
+  });
+
+  //llamar el servicio web de persona
+  $("#user_document_number").focusout(function(){
+    if($("#user_document_number").val() != ""){
+      if($("#user_document_type").val() == "Cédula"){
+        $("#loader").removeClass("ocultar-carg");
+        $.ajax({
+          url: "../webservices?number="+$("#user_document_number").val()+"&type=C",
+        success: function(result){
+          result = result.replace(/&quot;/g, '"');
+          var persona = JSON.parse(result);
+          if(persona.str_mensaje == "PROCESO OK"){  
+            $("#user_document_number").addClass("visto");
+            if(persona.per_persona.pe_nombres == null ){
+              $("#user_username").val("");
+              $("#user_username").attr("readonly", false);
+              $("#user_userlastname").val("");
+              $("#user_userlastname").attr("readonly", false)
+              $("#user_date_of_birth").val("");
+              $("#user_date_of_birth").attr("readonly", false)
+            }else{
+              $("#user_username").val(persona.per_persona.pe_nombres);
+              $("#user_username").attr("readonly", true);
+              $("#user_userlastname").val(persona.per_persona.pe_apellidos);
+              $("#user_userlastname").attr("readonly", true);
+              var date = persona.per_persona.pe_fecha_nacimiento.slice(0, 10);
+              $("#user_date_of_birth").val(date);
+              $("#user_date_of_birth").attr("readonly", true);
+            }
+          }else{
+            $("#user_document_number").removeClass("visto");
+            crearError("El número de cédula ingresado no es válido");
+            $("#user_username").val("");
+            $("#user_userlastname").val("");
+          }
+          $("#loader").addClass("ocultar-carg");
+          },timeout: 30000, error: function(){
+              crearError("Ha ocurrido un error al verificar el número de cédula");
+              $("#user_username").val("");
+              $("#user_userlastname").val("");
+              $("#loader").addClass("ocultar-carg");
+        }});
+      }
+      if($("#user_document_type").val() == "Pasaporte"){
+        $("#loader").removeClass("ocultar-carg");
+        $.ajax({
+          url: "../webservices?number="+$("#user_document_number").val()+"&type=P",
+        success: function(result){
+          result = result.replace(/&quot;/g, '"');
+          var persona = JSON.parse(result);
+          if(persona.str_mensaje == "PROCESO OK"){ 
+          
+            $("#user_document_number").addClass("visto");
+            $("#user_username").val(persona.per_persona.pe_nombres);
+            $("#user_userlastname").val(persona.per_persona.pe_apellidos);
+            var date = persona.per_persona.pe_fecha_nacimiento.slice(0, 10);
+            $("#user_date_of_birth").val(date);
+          }else{
+            $("#user_document_number").removeClass("visto");
+            crearError("El número de pasaporte ingresado no es válido");
+            $("#user_username").val("");
+            $("#user_userlastname").val("");
+          }
+          $("#loader").addClass("ocultar-carg");
+          },timeout: 30000, error: function(){
+              crearError("Ha ocurrido un error al verificar el número de pasaporte");
+              $("#user_username").val("");
+              $("#user_userlastname").val("");
+              $("#loader").addClass("ocultar-carg");
+        }});
+      }
+    }
+  });
+
+  function cargaInicial(){
+  //console.log("El valor inicial es:"+$("#user_document_type").val());
+    if($("#user_document_type").val() == "Cédula" || $("#user_document_type").val() == "Pasaporte"){
+      $("#user_document_number").attr("disabled", false);
+        $("#user_username").attr("readonly", true);
+        $("#user_userlastname").attr("readonly", true);
+        $("#user_date_of_birth").attr("readonly", true);
+    }
+  }
+  cargaInicial();
+</script>

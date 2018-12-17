@@ -52,8 +52,16 @@ module UsersHelper
     current_user && current_user.manager?
   end
 
+  def current_adminHouse?
+    current_user && current_user.houses_administrator?
+  end
+
+  def current_adminVolunteering? 
+    current_user && current_user.volunteerings_administrator?
+  end
+
   def show_admin_menu?
-    current_administrator? || current_moderator? || current_valuator? || current_manager?
+    current_administrator? || current_moderator? || current_valuator? || current_manager? || current_adminHouse? || current_adminVolunteering?
   end
 
   def interests_title_text(user)

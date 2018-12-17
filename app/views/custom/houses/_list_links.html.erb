@@ -1,0 +1,33 @@
+<ul class="no-bullet submenu">
+    <% if params[:option] == 'houses' %>
+        <li class="inline-block">
+            <%= link_to "Casa Somos",
+                houses_path(:option => 'houses'),
+                class: 'is-active'%>
+        </li>
+        <li class="inline-block">
+            <%= link_to "Talleres",
+                houses_path(:option => 'workshop')%>
+        </li>
+        <% elsif params[:option] == 'workshop'%>
+        <li class="inline-block">
+            <%= link_to "Casa Somos",
+                houses_path(:option => 'houses')%>
+        </li>
+        <li class="inline-block">
+            <%= link_to "Talleres",
+                houses_path(:option => 'workshop'),
+                class: 'is-active'%>
+        </li>
+    <% else %>
+        <li class="inline-block">
+            <%= link_to "Casa Somos",
+                houses_path(:option => 'houses'),
+                class: 'is-active'%>
+        </li>
+        <li class="inline-block">
+            <%= link_to "Talleres",
+                houses_path(:option => 'workshop')%>
+        </li>
+    <% end %>
+</ul>

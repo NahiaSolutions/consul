@@ -1,0 +1,15 @@
+<div class="row fila">
+    <%= back_link_to volunteerings_path %>
+    <% if @volunt_user.blank? %>
+        <div style="width: 50%">
+            <h1 class="tituloPrograma"> Se ha inscrito satisfactoriamente en </h1>
+            <h3><%= @volunt_program.title %> - <%= @volunt_category.name %> </h3>
+            <br>
+            <%= image_tag @volunt_program.photo,  style: 'height:auto;width:50%;'%>
+        </div>
+    <% else %>
+        <div style="width: 50%">
+            <h1 class="tituloPrograma"> Ya estás inscrito </h1>
+        </div>
+    <% end %>
+</div>

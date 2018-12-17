@@ -28,4 +28,11 @@ module StatsHelper
     content_tag :div, "", opt
   end
 
+  def zonal_administrations_chart_tag(opt = {})
+    events = events.join(',') if events.is_a? Array
+    opt[:data] ||= {}
+    opt[:data][:graph] = admin_api_stats_path(zonal_administrations: true)
+    content_tag :div, "", opt
+  end
+
 end

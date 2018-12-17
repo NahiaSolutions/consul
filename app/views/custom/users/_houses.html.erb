@@ -1,0 +1,9 @@
+<div style="margin-left: 2%;">
+    <h3>Talleres Casa Somos</h3>
+    <% @workshopsUser.each do |workshops| %>
+        <% @workshops.where(:id => workshops.workshop_id).each do |workshop| %>
+            <p>Estas inscrito en <%= link_to workshop.name, namespaced_house_path(workshop.name,
+            :houseid => workshop.house_id, :workshopid => workshop.id, :workshops => 'verTaller') %></p>
+        <% end %>
+    <% end %>
+</div>

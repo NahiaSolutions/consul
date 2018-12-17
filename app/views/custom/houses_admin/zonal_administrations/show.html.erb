@@ -1,0 +1,78 @@
+<%= back_link_to houses_admin_zonal_administrations_path %>
+<div>
+    <h2 class="inline-block"><%= @zonalAdministration.name %>: CASAS</h2>
+
+    <% if @houses.any? %>
+        <%= link_to "Crear nueva Casa",
+                    new_houses_admin_zonal_administration_house_path(@zonalAdministration),
+                    class: "button float-right margin-right" %>
+        <table id="printTable">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Casa</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+                <th>Talleres</th>
+                <th>Noticias</th>
+                <th>Carousel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @houses.each do |house| %>
+                <tr id="<%= dom_id(house) %>" class="budget">
+                    <td>
+                    <%= house.id %>
+                    </td>
+                    <td class="small">
+                    <%= house.name %>
+                    </td>
+                    <td>
+                        <%= link_to "editar casa",
+                            edit_houses_admin_zonal_administration_house_path(@zonalAdministration, house),
+                            class: "button hollow medium" %>
+                    </td>
+                    <td>
+                        <%= link_to "eliminar",
+                            houses_admin_zonal_administration_house_path(@zonalAdministration, house),
+                            method: :delete, class: "button hollow alert",
+                            data: {confirm: "Eliminar #{house.name}?"} %>
+                    </td>
+                    <td>
+                        <%= link_to "ver talleres",
+                            houses_admin_zonal_administration_house_path(@zonalAdministration, house),
+                            class: "button hollow medium" %>
+                    </td>
+                    <td>
+                        <% house.house_news.each do |news| %>
+                            <p><%= news.title %> 
+                            <%= link_to "editar", edit_houses_admin_zonal_administration_house_house_news_path(@zonalAdministration, house, news) %> 
+                            <%= link_to "eliminar", houses_admin_zonal_administration_house_house_news_path(@zonalAdministration, house, news),
+                            method: :delete, data: {confirm: "Eliminar #{news.title}?"}, style: "color:red" %></p>
+                        <% end %>
+                        <% if house.house_news.count < 3 %>
+                            <%= link_to "Nueva Noticia",
+                            new_houses_admin_zonal_administration_house_house_news_path(@zonalAdministration, house), class:'button' %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <% house.house_images.each do |image| %>
+                            <%= link_to "editar", edit_houses_admin_zonal_administration_house_house_image_path(@zonalAdministration, house, image) %> 
+                            <%= link_to "eliminar", houses_admin_zonal_administration_house_house_image_path(@zonalAdministration, house, image),
+                            method: :delete, data: {confirm: "Eliminar imagen?"}, style: "color:red" %></p>
+                        <% end %>
+                            <%= link_to "Añadir Imagen",
+                            new_houses_admin_zonal_administration_house_house_image_path(@zonalAdministration, house), class: 'button' %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+    <% else %>
+        <%= link_to "Crear nueva Casa",
+                    new_houses_admin_zonal_administration_house_path(@zonalAdministration),
+                    class: "button float-right margin-right" %>
+        <h2>No hay ninguna casa en esta administracion zonal</h2>
+    <% end %>
+</div>

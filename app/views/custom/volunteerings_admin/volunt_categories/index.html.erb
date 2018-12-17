@@ -1,0 +1,51 @@
+<div>
+    <h2 class="inline-block">Voluntariado: Categorias</h2>
+    <% if @volunt_categories.any? %>
+        <%= link_to "Crear nueva categoría",
+                    new_volunteerings_admin_volunt_category_path,
+                    class: "button float-right margin-right" %>
+        <table>
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Categoría</th>
+                <th>Editar Categoría</th>
+                <th>Eliminar Categoría</th>
+                <th>Talleres</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @volunt_categories.each do |category| %>
+                    <tr id="<%= dom_id(category) %>" class="budget">
+                        <td>
+                        <%= category.id %>
+                        </td>
+                        <td class="small">
+                        <%= category.name %>
+                        </td>
+                        <td>
+                            <%= link_to "editar",
+                                edit_volunteerings_admin_volunt_category_path(category),
+                                class: "button hollow medium" %>
+                        </td>
+                        <td>
+                            <%= link_to "eliminar",
+                                volunteerings_admin_volunt_category_path(category),
+                                method: :delete, class: "button hollow alert",
+                                data: {confirm: "Eliminar #{category.name}?"} %>
+                        </td>
+                        <td><%= link_to "ver talleres",
+                                volunteerings_admin_volunt_category_path(category),
+                                class: "button hollow medium" %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    <% else %>
+        <%= link_to "Crear nueva categoría",
+                    new_volunteerings_admin_volunt_category_path,
+                    class: "button float-right margin-right" %>
+        <h2>No hay ninguna categoría de voluntariado</h2>
+    <% end %>
+</div>
