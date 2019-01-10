@@ -1,7 +1,7 @@
 <nav class="admin-sidebar" data-equalizer-watch>
-  <ul id="houses_admin_menu" data-accordion-menu data-multi-open="false">
+  <ul id="housesadmin_menu" data-accordion-menu data-multi-open="false">
     <li>
-      <%= link_to "Administrar", houses_admin_root_path %>
+      <%= link_to "Administrar", housesadmin_root_path %>
     </li>
 
     <% if feature?(:houses) %>
@@ -12,10 +12,10 @@
         </a>
         <ul>
           <li>
-            <%= link_to "Administraciones Zonales", houses_admin_zonal_administrations_path %>
+            <%= link_to "Administraciones Zonales", housesadmin_zonal_administrations_path %>
           </li>
           <li>
-            <%= link_to "Rango de Edades", houses_admin_houses_age_ranges_path %>
+            <%= link_to "Rango de Edades", housesadmin_houses_age_ranges_path %>
           </li>
         </ul>
       </li>

@@ -1,18 +1,20 @@
-<div class="jumbo highlight" style="background-image: url('/assets/banner_principal.png') !important; 
-  background-size: cover; background-repeat: no-repeat;height: 50vw;margin-top: -1.6rem;">
-  <div class="row">
-    <div class="medium-9 small-centered text-center">
-      <!--<span>Bienvenido a:</span>-->
-      <h1 style="color: #fff;" class="textoPortada">¡Quito Cuenta Contigo!</h1>
-      <h3 class="lead textoPortada" style="color: #fff;">Por esto te invitamos a ser parte de esta plataforma</h3>
-      <h3 class="lead textoPortada" style="color: #fff;">digital para que propongas, opines y decidas</h3>
-      <h3 class="lead textoPortada" style="color: #fff;">sobre tu ciudad</h3>
-      <div class="small-centered medium-6 large-4 ">
-        <%= link_to "Leer Más", help_path, {class: "button botonPortada", style:"background: #72b951 !important;"}%>
-      </div>
+<% if header.present? %>
+    <div class="jumbo highlight" style='background-image: url("<%= header.image_url(:original)%>") !important; 
+    background-size: cover; background-repeat: no-repeat;height: 50vw;margin-top: -1.6rem;'>
+    <div class="row">
+        <div class="medium-9 small-centered text-center">
+        <!--<span><%# header.label %></span>-->
+        <h1 style="color: #fff;" class="textoPortada"><%= header.title %></h1>
+        <h3 class="lead textoPortada" style="color: #fff;"><%= header.description %></h3>
+        <div class="small-centered medium-6 large-4 ">
+            <%= link_to header.link_text, header.link_url, {class: "button botonPortada", style:"background: #72b951 !important;"} %>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
-<div style="background-image: url('/assets/banner2.png') !important; 
-  background-size: contain; background-repeat: no-repeat;height: 25vw;margin-bottom: 1.5rem;">
-</div>
+    </div>
+    <% if header.image.present? %>
+        <div style="background-image: url('/assets/banner2.png') !important; 
+        background-size: contain; background-repeat: no-repeat;height: 25vw;margin-bottom: 1.5rem;">
+        </div>
+    <% end %>
+<% end %>

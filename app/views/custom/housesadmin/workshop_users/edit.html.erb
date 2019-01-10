@@ -1,0 +1,12 @@
+<%= back_link_to housesadmin_zonal_administration_house_workshop_path(@zonalAdministration, @house, @workshop) %>
+<div class="row">
+    <h2 class="inline-block">Editar Estado</h2>
+    <%= form_for [:housesadmin, @zonalAdministration, @house, @workshop, @workshopUser]  do |f| %>
+        <%= render 'shared/errors', resource: @workshopUser %>
+
+        <%= f.label :status, "Estado" %>
+        <%= f.select :status, options_for_select([["en espera", 0],["inscrito", 1]], :selected => @selectStatus), {label: false},{}%>
+
+        <%= f.submit "Guardar" %>
+    <% end %>
+</div>

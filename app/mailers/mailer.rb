@@ -5,12 +5,20 @@ class Mailer < ApplicationMailer
   helper :mailer
   helper :users
 
-  def volunteerings_email(user, program)
+  def volunteerings(user, category, program)
     @user = user
+    @category = category
     @program = program
-    with_user(user) do
-      mail(:to => user.email, :subject => "Inscripción en #{program.title}")
-    end
+    @email_to = @user.email
+    mail(to: @email_to, subject: "Inscripción en #{@program.title}")
+  end
+
+  def volunteerings_admin(user, category, program, admin)
+    @user = user
+    @category = category
+    @program = program
+    @email_to = admin.email
+    mail(to: @email_to, subject: "Inscripción de nuevo voluntario en #{@program.title}")
   end
 
   def comment(comment)

@@ -30,6 +30,8 @@ section "Creating Settings" do
 
   Setting.create(key: 'feature.debates', value: "true")
   Setting.create(key: 'feature.proposals', value: "true")
+  Setting.create(key: 'feature.houses', value: "true")
+  Setting.create(key: 'feature.volunteerings', value: "true")
   Setting.create(key: 'feature.polls', value: "true")
   Setting.create(key: 'feature.spending_proposals', value: nil)
   Setting.create(key: 'feature.spending_proposal_features.voting_allowed', value: nil)

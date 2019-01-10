@@ -1,0 +1,73 @@
+<%= back_link_to volunteeringsadmin_volunt_category_path(@volunt_category) %>
+
+<div class="row">
+    <div id="printTable">
+        <h2 style="text-align: center;"><strong><%= "Taller: #{@volunt_program.title}"%></strong></h2>
+        <h4><strong><%= "Cupos disponibles: #{@volunt_program.quota}"%></strong></h4>
+        <h4><%= "Horario: #{@volunt_program.schedule}"%></h4>
+
+        <% if @volunt_users.any? %>
+            <table>
+                <thead>
+                    <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>Numero de identificación</th>
+                    <th>Teléfono</th>
+                    <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% @volunt_users.each do |program_user| %>
+                        <% @users.where(:id => program_user.id_user).each do |user| %>
+                            <tr>
+                                <td>
+                                    <%= user.username %>
+                                </td>
+                                <td>
+                                    <%= user.userlastname %>
+                                </td>
+                                <td>
+                                    <%= user.email %>
+                                </td>
+                                <td>
+                                    <%= user.document_number %>
+                                </td>
+                                <td>
+                                    <%= user.phone_number %>
+                                </td>
+                                <td>
+                                    <%= link_to "eliminar",
+                                        volunteeringsadmin_volunt_category_volunt_program_volunt_user_path(@volunt_category, @volunt_program, program_user),
+                                        method: :delete, class: "button hollow alert",
+                                        data: {confirm: "Eliminar inscripción de #{user.username}?"} %>
+                                </td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                </tbody>
+            </table>
+
+        <% else %>
+            <h2>No existen usuarios inscritos en este programa</h2>
+        <% end %>
+    </div>
+
+    <button id="buttonPrint" class="button warning expanded">Imprimir</button>
+
+</div>
+<script>
+    function printData()
+    {
+        var divToPrint = document.getElementById("printTable");
+        newWin= window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+    $('#buttonPrint').on('click',function(){
+        printData();
+    })
+</script>

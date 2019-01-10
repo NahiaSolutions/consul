@@ -1,12 +1,12 @@
 <nav class="admin-sidebar" data-equalizer-watch>
-  <ul id="volunteerings_admin_menu" data-accordion-menu data-multi-open="false">
+  <ul id="volunteeringsadmin_menu" data-accordion-menu data-multi-open="false">
     <li>
-      <%= link_to "Administrar", volunteerings_admin_root_path %>
+      <%= link_to "Administrar", volunteeringsadmin_root_path %>
     </li>
 
     <% if feature?(:volunteerings)%>
       <li class="section-title" <%= "class=is-active" if controller_name == 'volunt_categories' %>">
-        <%= link_to volunteerings_admin_volunt_categories_path do %>
+        <%= link_to volunteeringsadmin_volunt_categories_path do %>
             <span><%= image_tag "help/help_icon_volunteering.png", size: "26x26" %></span>
             <strong><%= "Voluntariado" %></strong>
         <% end %>

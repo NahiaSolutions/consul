@@ -1,0 +1,51 @@
+<%= form_for [:housesadmin, @zonalAdministration, @house]  do |f| %>
+  <%= render 'shared/errors', resource: @house %>
+
+  <%= f.label :name, "Nombre de la casa" %>
+  <%= f.text_field :name, placeholder: "Nombre", label: false %>
+
+  <%= f.label :address, "Dirección de la casa" %>
+  <%= f.text_field :address, placeholder: "dirección", label: false %>
+
+  <%= f.label :schedule, "Horario de la casa <span><small style='font-weight: normal;'>caracteres permitidos: ( : - / . )</small></span>" %>
+  <%= f.text_field :schedule, placeholder: "Ejem: Lun - Vie de 08:00 a 16:00", label: false %>
+
+  <%= f.label :phone, "Teléfonos <span><small style='font-weight: normal;'>(seraparar numeros con / )</small></span>" %>
+  <%= f.text_field :phone, placeholder: "Ejem: 0995621346/0221346", label: false %>
+  
+  <%= f.label :email, "Correo electrónico" %>
+  <%= f.email_field :email, placeholder: "Ejemp: ejemplo@mail.com", label: false %>
+    
+  <hr>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable: @house, f: f %>
+  <span><small style='font-weight: normal;'>
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px)
+  </small></span>
+
+  <hr>
+
+  <%= image_tag  "disability_access.png" %>
+  <%= f.check_box :disability_access, label: false %>
+  <%= f.label :disability_access, "Acceso para discapacitados" %>
+  
+  <%= f.hidden_field :zonal_administration_id, value: @zonalAdministration.id %>
+  <br><br>
+
+  <hr>
+
+  <h2>Geolocalizaión</h2>
+  <%= f.fields_for :map_location do |map| %>
+    <%= map.label :latitude, "Latitud" %>
+    <%= map.number_field :latitude, label: false, value: @latitude, step: :any %>
+    <%= map.label :longitude, "Longitud" %>
+    <%= map.number_field :longitude, label: false, value: @longitude, step: :any %>
+    <%= map.label :zoom, "Zoom" %>
+    <%= map.number_field :zoom, label: false, value: @zoom %>
+    <%= map.hidden_field :house_id, value: @house.id %>
+  <% end %>
+
+  <%= f.submit "Guardar" %>
+
+<% end %>

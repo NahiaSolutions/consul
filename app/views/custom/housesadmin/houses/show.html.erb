@@ -1,0 +1,68 @@
+<%= back_link_to housesadmin_zonal_administration_path(@zonalAdministration) %>
+<div>
+    <h2 class="inline-block"><%= "CASA SOMOS: Talleres de #{@house.name}" %></h2>
+
+    <% if @workshops.any? %>
+        <%= link_to "Crear nuevo taller",
+                    new_housesadmin_zonal_administration_house_workshop_path(@zonalAdministration, @house),
+                    class: "button float-right margin-right" %>
+        <table id="printTable">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Taller</th>
+                <th>Editar taller</th>
+                <th>Inscritos</th>
+                <th>Eliminar taller</th>
+                <th>Imagenes Carousel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @workshops.each do |workshop| %>
+                <tr id="<%= dom_id(workshop) %>" class="budget">
+                    <td>
+                    <%= workshop.id %>
+                    </td>
+                    <td class="small">
+                    <%= workshop.name %>
+                    </td>
+                    <td>
+                        <%= link_to "editar taller",
+                            edit_housesadmin_zonal_administration_house_workshop_path(@zonalAdministration, 
+                            @house, workshop),
+                            class: "button hollow medium" %>
+                    </td>
+                    <td>
+                        <%= link_to "ver lista",
+                            housesadmin_zonal_administration_house_workshop_path(@zonalAdministration,
+                            @house, workshop),
+                            class: "button hollow medium" %>
+                    </td>
+                    <td>
+                        <%= link_to "eliminar",
+                            housesadmin_zonal_administration_house_workshop_path(@zonalAdministration,
+                            @house, workshop),
+                            method: :delete, class: "button hollow alert",
+                            data: {confirm: "Eliminar #{workshop.name}?"} %>
+                    </td>
+                    <td>
+                        <% workshop.workshop_images.each do |image| %>
+                            <%= link_to "editar", edit_housesadmin_zonal_administration_house_workshop_workshop_image_path(@zonalAdministration, @house, workshop, image) %> 
+                            <%= link_to "eliminar", housesadmin_zonal_administration_house_workshop_workshop_image_path(@zonalAdministration, @house, workshop, image),
+                            method: :delete, data: {confirm: "Eliminar imagen?"}, style: "color:red" %></p>
+                        <% end %>
+                            <%= link_to "Añadir Imagen",
+                            new_housesadmin_zonal_administration_house_workshop_workshop_image_path(@zonalAdministration, @house, workshop), class: 'button' %>
+                    </td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+    <% else %>
+        <%= link_to "Crear nuevo taller",
+                    new_housesadmin_zonal_administration_house_workshop_path(@zonalAdministration, @house),
+                    class: "button float-right margin-right" %>
+        <h2>No existe ningun taller en esta casa</h2>
+    <% end %>
+</div>

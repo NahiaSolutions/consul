@@ -24,8 +24,17 @@ class VolunteeringsController < ApplicationController
             @volunt_program = VoluntProgram.find_by_id(params[:programid])
             VoluntUser.register(current_user.id, params[:programid])
             VoluntProgram.register(params[:programid])
-            #Envio de email
-            Mailer.volunteerings_email(current_user, @volunt_program).deliver_later
+            #Envio de email a los administradores
+            volunt_admin = VolunteeringsAdministrator.all
+            admin = Administrator.all
+            volunt_admin.each do |admin_recipient|
+                Mailer.volunteerings_admin(current_user, @volunt_category, @volunt_program, admin_recipient).deliver_later
+            end
+            admin.each do |admin_recipient|
+                Mailer.volunteerings_admin(current_user, @volunt_category, @volunt_program, admin_recipient).deliver_later
+            end
+            #Envio de email al usuario
+            Mailer.volunteerings(current_user, @volunt_category, @volunt_program).deliver_later
         end
     end
 

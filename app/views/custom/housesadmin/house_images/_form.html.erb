@@ -1,0 +1,11 @@
+<%= form_for [:housesadmin, @zonalAdministration, @house, @houseImage]  do |f| %>
+  <%= render 'shared/errors', resource: @houseImage %>
+
+  <%= f.hidden_field :photo, value: '' %>
+  <%= render 'images/admin_image', imageable: @houseImage, f: f %>
+
+  <%= f.hidden_field :house_id, value: @house.id %>
+
+  <%= f.submit "Guardar" %>
+
+<% end %>

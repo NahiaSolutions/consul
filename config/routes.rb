@@ -36,8 +36,8 @@ Rails.application.routes.draw do
   draw :parish
   draw :age_range
   draw :webservice
-  draw :houses_admin
-  draw :volunteerings_admin
+  draw :housesadmin
+  draw :volunteeringsadmin
   
   root 'welcome#index'
   get '/welcome', to: 'welcome#welcome'
