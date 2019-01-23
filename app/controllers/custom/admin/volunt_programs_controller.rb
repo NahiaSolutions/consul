@@ -5,6 +5,16 @@ class Admin::VoluntProgramsController < Admin::BaseController
         @volunt_program = VoluntProgram.find(params[:id])
         @volunt_users = @volunt_program.volunt_users
         @users = User.all
+        #Imprimir en EXCEL
+        respond_to do |format|
+            format.html
+            format.xlsx { set_attachment_name "Inscripciones #{@volunt_program.title} #{Time.now.utc.strftime('%Y%M%d%H%M%S')}.xlsx" }
+        end
+    end
+
+    def set_attachment_name(name)
+        escaped = URI.encode(name)
+        response.headers['Content-Disposition'] = "attachment; filename*=UTF-8''#{escaped}"
     end
 
     def new

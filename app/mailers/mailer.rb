@@ -5,6 +5,24 @@ class Mailer < ApplicationMailer
   helper :mailer
   helper :users
 
+  #Mails para Casa Somos
+  def houses(user, house, workshop)
+    @user = user
+    @house = house
+    @workshop = workshop
+    @email_to = @user.email
+    mail(to: @email_to, subject: "Inscripción en el taller #{@workshop.name}")
+  end
+
+  def houses_admin(user, house, workshop, admin)
+    @user = user
+    @house = house
+    @workshop = workshop
+    @email_to = admin.email
+    mail(to: @email_to, subject: "Inscripción de nuevo usuario en el taller #{@workshop.name}")
+  end
+
+  #Mails para voluntariado
   def volunteerings(user, category, program)
     @user = user
     @category = category

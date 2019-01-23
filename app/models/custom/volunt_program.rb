@@ -3,7 +3,7 @@ class VoluntProgram < ActiveRecord::Base
     has_many :volunt_users, :dependent => :destroy
     include Imageable
 
-    validates :title, :presence => true, format: {with: /\A^[a-zA-Z0-9\s]+$\Z/i}
+    validates :title, :presence => true, format: {with: /\A^[a-zA-Zñáéíóú\s]+$\Z/i}
     validates :schedule, :presence => true, format: {with: /\A^[a-zA-Z0-9\s\/:.\-]+$\Z/i}
     validates :phone, :presence => true, format: {with: /\A^[0-9\/]+$\Z/i}
     validates :quota, :presence => true, :numericality => true

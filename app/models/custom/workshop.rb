@@ -5,14 +5,17 @@ class Workshop < ActiveRecord::Base
     has_many :workshop_images, :dependent => :destroy
     include Imageable
 
-    validates :name, :presence => true, format: {with: /\A^[a-zA-Z0-9\s]+$\Z/i}
-    validates :teacher, :presence => true, format: {with: /\A^[a-zA-Z\s.]+$\Z/i}
+    validates :name, :presence => true, format: {with: /\A^[a-zA-Z0-9ñáéíóú\s]+$\Z/i}
+    validates :teacher, :presence => true, format: {with: /\A^[a-zA-Z0-9ñáéíóú\s\.\-]+$\Z/i}
     validates :schedule, :presence => true, format: {with: /\A^[a-zA-Z0-9\s\/:.\-]+$\Z/i}
     validates :quota, :presence => true, :numericality => true
     validates :short_description, :presence => true
     validates :long_description, :presence => true
     validates :id_age_range, :presence => true
     validates :status, :presence => true
+    validates :start_date, presence: true
+    validates :end_date, presence: true
+    validate :valid_date_range
 
     def self.register(workshopid)
         workshop = Workshop.find_by_id(workshopid)
@@ -22,6 +25,10 @@ class Workshop < ActiveRecord::Base
     def self.erase(workshopid)
         workshop = Workshop.find_by_id(workshopid)
         Workshop.update(workshopid, :quota => workshop.quota + 1)
+    end
+
+    def valid_date_range
+        errors.add(:end_date, :invalid_date_range) if end_date && start_date && end_date < start_date
     end
 
 end

@@ -1,0 +1,12 @@
+<td style="padding-bottom: 20px; padding-left: 10px;">
+  <h1 style="font-family: 'Open Sans','Helvetica Neue',arial,sans-serif;">
+    <%= Setting['org_name'] %>
+  </h1>
+
+  <p>Estimado/a <%= @user.username %> usted de ha inscrito exitosamente en el taller <%= @workshop.name %>, 
+  en la casa somos <%= @house.name %>, en el siguiente horario <%= @workshop.schedule %>.</p>
+
+  <p>Cualquier inquietud por favor comunicarse con el responsable de la Casa al mail <%= @house.email %>.</p>
+
+  <p>Saludos cordiales.</p>
+</td>

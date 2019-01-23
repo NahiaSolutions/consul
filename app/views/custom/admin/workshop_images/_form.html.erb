@@ -3,9 +3,12 @@
 
   <%= f.hidden_field :photo, value: '' %>
   <%= render 'images/admin_image', imageable:  @workshopImage, f: f %>
+  <span><small style='font-weight: normal;'>
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px, formato: .jpg)
+  </small></span>
 
   <%= f.hidden_field :workshop_id, value: @workshop.id %>
-
+  <br><br>
   <%= f.submit "Guardar" %>
 
 <% end %>

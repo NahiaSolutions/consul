@@ -313,8 +313,10 @@ class User < ActiveRecord::Base
 
     #validacion de la edad
     def validate_age
-      if (Date.today.year.to_i - date_of_birth.year.to_i) < Setting['min_age_to_participate'].to_i
-        errors.add(:date_of_birth, "Debe ser mayor a #{Setting['min_age_to_participate']} años")
+      if date_of_birth.present?
+        if (Date.today.year.to_i - date_of_birth.year.to_i) < Setting['min_age_to_participate'].to_i
+          errors.add(:date_of_birth, "Debe ser mayor a #{Setting['min_age_to_participate']} años")
+        end
       end
     end
   

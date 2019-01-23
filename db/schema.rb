@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181205191554) do
+ActiveRecord::Schema.define(version: 20190123155556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1202,6 +1202,7 @@ ActiveRecord::Schema.define(version: 20181205191554) do
     t.integer  "user_neighborhood"
     t.string   "ethnic_group"
     t.string   "studies_level"
+    t.boolean  "disability",                                default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -1373,6 +1374,8 @@ ActiveRecord::Schema.define(version: 20181205191554) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "status"
+    t.date     "start_date"
+    t.date     "end_date"
   end
 
   create_table "zonal_administrations", force: :cascade do |t|

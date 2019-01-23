@@ -31,7 +31,7 @@
   <%= f.hidden_field :photo, value: '' %>
   <%= render 'images/admin_image', imageable: @volunt_program, f: f %>
   <span><small style='font-weight: normal;'>
-  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px)
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px, formato: .jpg)
   </small></span>
 
   <%= f.hidden_field :volunt_category_id, value: @volunt_category.id %>

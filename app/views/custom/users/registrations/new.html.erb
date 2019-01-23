@@ -59,6 +59,9 @@
                            placeholder: t("devise_views.users.registrations.new.password_label"), label: false %>
       <div id="errorPassword" class=" ocultar-carg"><small class='error  error'>La contraseña debe tener más de 8 caracteres</small></div>
 
+      <%= f.label :disability, "Discapacidad" %>
+      <%= f.select :disability, options_for_select({ "NO" => false, "SI" => true}, :selected => @selectDisability ), 
+                                {label: false, :selected => params[0]},{} %>
     </div>
 
     <div class="small-6 column">

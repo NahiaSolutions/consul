@@ -54,20 +54,7 @@
         <% end %>
     </div>
 
-    <button id="buttonPrint" class="button warning expanded">Imprimir</button>
+    <%= link_to "Imprimir lista de inscritos", admin_volunt_category_volunt_program_path(format: "xlsx"), 
+            class: "button warning expanded" %>
 
 </div>
-<script>
-    function printData()
-    {
-        var divToPrint = document.getElementById("printTable");
-        newWin= window.open("");
-        newWin.document.write(divToPrint.outerHTML);
-        newWin.print();
-        newWin.close();
-    }
-
-    $('#buttonPrint').on('click',function(){
-        printData();
-    })
-</script>

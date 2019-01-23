@@ -59,7 +59,7 @@ class Admin::WorkshopsController < Admin::BaseController
     private
     def workshop_params
         params.require(:workshop).permit(:name, :teacher, :schedule, :quota, :short_description, 
-            :long_description, :house_id, :id_age_range, :status,
+            :long_description, :house_id, :id_age_range, :status, :start_date, :end_date,
             image_attributes: [:id, :title, :attachment, :cached_attachment, :user_id, :_destroy])
     end
 

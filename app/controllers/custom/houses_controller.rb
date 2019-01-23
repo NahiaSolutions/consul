@@ -44,6 +44,17 @@ class HousesController < ApplicationController
         if params[:register] == 'reg' && @workshop_user.blank?
             WorkshopUser.register(current_user.id, params[:workshopid])
             Workshop.register(params[:workshopid])
+            #Envio de email a los administradores
+            houses_admin = HousesAdministrator.all
+            admin = Administrator.all
+            houses_admin.each do |admin_recipient|
+                Mailer.houses_admin(current_user, @house, @workshop, admin_recipient).deliver_later
+            end
+            admin.each do |admin_recipient|
+                Mailer.houses_admin(current_user, @house, @workshop, admin_recipient).deliver_later
+            end
+            #Envio de email al usuario
+            Mailer.houses(current_user, @house, @workshop).deliver_later
         end
 
         if params[:register] == 'erase' && @workshop_user.present?

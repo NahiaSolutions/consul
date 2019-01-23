@@ -9,6 +9,20 @@
 
   <%= f.label :schedule, "Horario del taller <span><small style='font-weight: normal;'>caracteres permitidos: ( : - / . )</small></span>" %>
   <%= f.text_field :schedule, placeholder: "Ejem: Lun - Vie de 08:00 a 16:00", label: false %>
+  
+  <%= f.label :teacher, "Fecha de inicio del taller" %>
+  <%= f.text_field :start_date,
+                    label: false,
+                    value: format_date_for_calendar_form(@workshop.start_date),
+                    class: "js-calendar-full",
+                    id: "start_date" %>
+
+  <%= f.label :teacher, "Fecha de fin del taller" %>
+  <%= f.text_field :end_date,
+                    label: false,
+                    value: format_date_for_calendar_form(@workshop.end_date),
+                    class: "js-calendar-full",
+                    id: "end_date" %>
 
   <%= f.label :quota, "Cupos" %>
   <%= f.number_field :quota, label: false %>
@@ -28,7 +42,7 @@
   <%= f.hidden_field :photo, value: '' %>
   <%= render 'images/admin_image', imageable: @house, f: f %>
   <span><small style='font-weight: normal;'>
-  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px)
+  (La imagen es opcional, peso máximo: 1MB, tamaño minimo: 475px X 475px, formato: .jpg)
   </small></span>
 
   <hr>

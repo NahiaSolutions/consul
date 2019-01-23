@@ -21,6 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         @selectGender = params[:user][:gender]
         @selectEthnicGroup = params[:user][:ethnic_group]
         @selectStudies = params[:user][:studies_level]
+        @selectDisability = params[:user][:disability]
         render :new
       end
     end
@@ -65,7 +66,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         params.require(:user).permit(:username, :userlastname, :document_type, :document_number, :date_of_birth, 
                                      :user_parish, :user_neighborhood, :email, :password, :ethnic_group, :gender,
                                      :password_confirmation, :terms_of_service, :locale, :studies_level,
-                                     :redeemable_code, :phone_number)
+                                     :redeemable_code, :phone_number, :disability)
       end
   
       def configure_permitted_parameters
