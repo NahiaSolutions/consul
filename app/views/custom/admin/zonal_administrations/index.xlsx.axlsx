@@ -1,0 +1,58 @@
+wb = xlsx_package.workbook
+
+# Create a style we can use for record headers
+styles = xlsx_package.workbook.styles
+title = styles.add_style :bg_color => "DD", :sz => 16, :b => true, :alignment => {:horizontal => :center}
+header_style_zonal = styles.add_style bg_color: "9a4343",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+header_style = styles.add_style bg_color: "00",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+t_label = styles.add_style :b => true, :alignment => {:horizontal => :center}
+label = styles.add_style :alignment => {:horizontal => :center}
+
+wb.add_worksheet(name: "Inscritos") do |sheet|
+  sheet.add_row ["Lista de Talleres Casa Somos"], :style => [title]
+  sheet.add_row
+  sheet.add_row ["Administraciones Zonales:", @zonalAdministrations.count], :style => [t_label, label]
+  sheet.add_row ["Casas:", @houses.count], :style => [t_label, label]
+  sheet.add_row ["Talleres:", @workshops.count], :style => [t_label, label]
+  sheet.add_row
+
+  @zonalAdministrations.each do |administration|
+    if administration.houses.any?
+      sheet.add_row ["Administracion Zonal #{administration.name}"], :style => [header_style_zonal]
+      sheet.add_row
+      @houses.where(:zonal_administration_id => administration.id).each do |house|
+        if house.workshops.any?
+          sheet.add_row ["Casa #{house.name}"], :style => [header_style]
+          sheet.add_row %w(Taller Edad Inscritos), style: header_style
+          @workshops.where(:house_id => house.id).each do |workshop|
+            sheet.add_row [workshop.name, @ageRanges.find(workshop.id_age_range).name, @workshop_users.where(:workshop_id => workshop.id).count]
+          end
+          sheet.add_row
+        else
+          sheet.add_row ["Casa #{house.name}"], :style => [header_style]
+          sheet.add_row ["No existen talleres"]
+          sheet.add_row
+        end
+      end
+    else
+      sheet.add_row ["Administracion Zonal #{administration.name}"], :style => [header_style_zonal]
+      sheet.add_row ["No existen talleres"]
+      sheet.add_row
+    end
+  end
+
+  #sheet.add_row %w(Nombre Apellido email Cédula/Pasaporte Teléfono Estado), style: header_style
+  
+  # each user is a row on your spreadsheet
+  #@workshop_users.each do |workshop_user|
+    #@users.where(:id => workshop_user.id_user).each do |user|
+      #sheet.add_row [user.username, user.userlastname, user.email, user.document_number, user.phone_number, WorkshopUser.estado(workshop_user.status)]
+    #end
+  #end
+end

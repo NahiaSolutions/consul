@@ -1,8 +1,22 @@
 class Housesadmin::ZonalAdministrationsController < Housesadmin::BaseController
 
     def index
-        @zonalAdministration = ZonalAdministration.all.order('id asc')
-    end    
+        @zonalAdministrations = ZonalAdministration.all.order('id asc')
+        @houses = House.all
+        @workshops = Workshop.all
+        @ageRanges = HousesAgeRange.all
+        @workshop_users = WorkshopUser.all
+        #Imprimir en EXCEL
+        respond_to do |format|
+            format.html
+            format.xlsx { set_attachment_name "Lista de talleres #{Time.now.utc.strftime('%Y%M%d%H%M%S')}.xlsx" }
+        end
+    end
+
+    def set_attachment_name(name)
+        escaped = URI.encode(name)
+        response.headers['Content-Disposition'] = "attachment; filename*=UTF-8''#{escaped}"
+    end
 
     def show
         @zonalAdministration = ZonalAdministration.find(params[:id])

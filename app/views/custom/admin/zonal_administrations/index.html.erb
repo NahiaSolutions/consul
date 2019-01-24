@@ -1,6 +1,6 @@
 <div>
     <h2 class="inline-block">CASA SOMOS: ADMINISTRACIONES ZONALES</h2>
-    <% if @zonalAdministration.any? %>
+    <% if @zonalAdministrations.any? %>
         <%= link_to "Crear nueva administración",
                     new_admin_zonal_administration_path,
                     class: "button float-right margin-right" %>
@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <% @zonalAdministration.each do |administration| %>
+                <% @zonalAdministrations.each do |administration| %>
                 <tr id="<%= dom_id(administration) %>" class="budget">
                     <td>
                     <%= administration.id %>
@@ -43,6 +43,10 @@
                 <% end %>
             </tbody>
         </table>
+        <div>
+            <%= link_to "Guardar lista talleres", admin_zonal_administrations_path(format: "xlsx"), 
+                    class: "button warning expanded" %>
+        </div>
     <% else %>
         <%= link_to "Crear nueva administración",
                     new_admin_zonal_administration_path,

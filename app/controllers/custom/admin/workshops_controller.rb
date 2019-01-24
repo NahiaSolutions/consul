@@ -6,6 +6,16 @@ class Admin::WorkshopsController < Admin::BaseController
         @workshop = Workshop.find(params[:id])
         @workshop_users = @workshop.workshop_users
         @users = User.all
+        #Imprimir en EXCEL
+        respond_to do |format|
+            format.html
+            format.xlsx { set_attachment_name "Inscripciones #{@workshop.name} #{Time.now.utc.strftime('%Y%M%d%H%M%S')}.xlsx" }
+        end
+    end
+
+    def set_attachment_name(name)
+        escaped = URI.encode(name)
+        response.headers['Content-Disposition'] = "attachment; filename*=UTF-8''#{escaped}"
     end
 
     def new

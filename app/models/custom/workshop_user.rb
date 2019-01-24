@@ -30,4 +30,12 @@ class WorkshopUser < ActiveRecord::Base
         end
     end
 
+    def self.estado(status)
+        if status == 1
+            "inscrito"
+        else
+            "en espera"
+        end
+    end
+
 end

@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+
+# Create a style we can use for record headers
+styles = xlsx_package.workbook.styles
+title = styles.add_style :bg_color => "DD", :sz => 16, :b => true, :alignment => {:horizontal => :center}
+header_style = styles.add_style bg_color: "00",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+t_label = styles.add_style :b => true, :alignment => {:horizontal => :center}
+label = styles.add_style :alignment => {:horizontal => :center}
+
+wb.add_worksheet(name: "Inscritos") do |sheet|
+  sheet.add_row ["Casa:#{@house.name}", "Taller: #{@workshop.name}"], :style => [title, title]
+  sheet.add_row
+  sheet.add_row ["Cupos disponibles:", @workshop.quota], :style => [t_label, label]
+  sheet.add_row ["Responsable:", @workshop.teacher], :style => [t_label, label]
+  sheet.add_row ["Horario:", @workshop.schedule], :style => [t_label, label]
+  sheet.add_row
+  # this is the head row of your spreadsheet
+  sheet.add_row %w(Nombre Apellido email Cédula/Pasaporte Teléfono Estado), style: header_style
+  
+  # each user is a row on your spreadsheet
+  @workshop_users.each do |workshop_user|
+    @users.where(:id => workshop_user.id_user).each do |user|
+      sheet.add_row [user.username, user.userlastname, user.email, user.document_number, user.phone_number, WorkshopUser.estado(workshop_user.status)]
+    end
+  end
+end
