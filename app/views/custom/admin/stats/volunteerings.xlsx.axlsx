@@ -1,0 +1,37 @@
+wb = xlsx_package.workbook
+
+# Create a style we can use for record headers
+styles = xlsx_package.workbook.styles
+title = styles.add_style :bg_color => "DD", :sz => 16, :b => true, :alignment => {:horizontal => :center}
+header_style_zonal = styles.add_style bg_color: "9a4343",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+header_style = styles.add_style bg_color: "00",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+t_label = styles.add_style :b => true, :alignment => {:horizontal => :center}
+label = styles.add_style :alignment => {:horizontal => :center}
+
+wb.add_worksheet(name: "Programas") do |sheet|
+  sheet.add_row ["Voluntariado"], :style => [title]
+  sheet.add_row
+  sheet.add_row ["Categorías:", @categories.count], :style => [t_label, label]
+  sheet.add_row ["Programas:", @programs.count], :style => [t_label, label]
+  sheet.add_row
+
+  @categories.each do |category|
+    sheet.add_row ["Categoría: #{category.name}"], :style => [header_style_zonal]
+    if category.volunt_programs.any?
+      sheet.add_row ["Nombre del programa", "Cupos disponibles", "Inscritos"], :style => header_style
+      category.volunt_programs.each do |program|
+        sheet.add_row [program.title, program.quota, program.volunt_users.count]
+      end
+      sheet.add_row
+    else
+      sheet.add_row ["No existen programas de voluntariado"]
+      sheet.add_row
+    end
+  end
+end

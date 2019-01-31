@@ -67,6 +67,16 @@ class Admin::StatsController < Admin::BaseController
     end
   end
 
+  def volunteerings
+    @categories = VoluntCategory.all
+    @programs = VoluntProgram.all
+    #Imprimir en EXCEL
+    respond_to do |format|
+      format.html
+      format.xlsx { set_attachment_name "Reporte Voluntariado #{Time.now.utc.strftime('%Y%M%d%H%M%S')}.xlsx" }
+    end
+  end
+
   def set_attachment_name(name)
     escaped = URI.encode(name)
     response.headers['Content-Disposition'] = "attachment; filename*=UTF-8''#{escaped}"

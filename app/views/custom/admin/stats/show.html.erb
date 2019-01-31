@@ -19,6 +19,10 @@
           <%= link_to "Casa Somos",
                       houses_admin_stats_path, class: "button hollow" %>
         <% end %>
+        <% if feature?(:volunteerings) %>
+          <%= link_to "Voluntariado",
+                      volunteerings_admin_stats_path, class: "button hollow" %>
+        <% end %>
       </div>
 
       <div class="clear"></div>

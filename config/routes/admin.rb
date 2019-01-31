@@ -173,6 +173,7 @@ namespace :admin do
     get :direct_messages, on: :collection
     get :polls, on: :collection
     get :houses, on: :collection
+    get :volunteerings, on: :collection
   end
 
   namespace :legislation do

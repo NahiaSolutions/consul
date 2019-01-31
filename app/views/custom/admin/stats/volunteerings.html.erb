@@ -1,0 +1,34 @@
+<%= back_link_to %>
+<div>
+  <h1>Voluntariado</h1>
+
+  <% @categories.each do |category| %>
+    <h3><%= category.name %></h3>
+    <% if category.volunt_programs.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre del programa</th>
+            <th>Cupos disponibles</th>
+            <th>Inscritos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% category.volunt_programs.each do |program| %>
+            <tr id="<%= dom_id(program) %>" class="budget">
+              <td><%= program.title %></td>
+              <td><%= program.quota %></td>
+              <td><%= program.volunt_users.count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No existen programas en esta categoría</p>
+    <% end %>
+  <% end %>
+</div>
+<div>
+  <%= link_to "Guardar reporte", volunteerings_admin_stats_path(format: "xlsx"), 
+      class: "button warning expanded" %>
+</div>
