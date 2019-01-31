@@ -5,7 +5,8 @@ class Admin::Api::StatsController < Admin::Api::BaseController
            params[:visits].present? ||
            params[:spending_proposals].present? ||
            params[:budget_investments].present? ||
-           params[:zonal_administrations].present?
+           params[:workshop_users].present? ||
+           params[:volunt_users].present?
       return render json: {}, status: :bad_request
     end
 
@@ -30,8 +31,12 @@ class Admin::Api::StatsController < Admin::Api::BaseController
       ds.add "Budget Investments", Budget::Investment.group_by_day(:created_at).count
     end
 
-    if params[:zonal_administrations].present?
-      ds.add "Zonal Admnistrations", ZonalAdministration.group_by_day(:created_at).count
+    if params[:workshop_users].present?
+      ds.add "Workshop Users", WorkshopUser.group_by_day(:created_at).count
+    end
+
+    if params[:volunt_users].present?
+      ds.add "Program Users", VoluntUser.group_by_day(:created_at).count
     end
 
     render json: ds.build

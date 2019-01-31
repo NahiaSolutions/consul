@@ -1,0 +1,36 @@
+<%= back_link_to %>
+<div>
+  <h1>CASA SOMOS</h1>
+
+  <% @houses.each do |house| %>
+    <h3><%= house.name %></h3>
+    <% if house.workshops.any? %>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre del taller</th>
+            <th>Cupos disponibles</th>
+            <th>Inscritos</th>
+            <th>En lista de espera</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% house.workshops.each do |workshop| %>
+            <tr id="<%= dom_id(workshop) %>" class="budget">
+              <td><%= workshop.name %></td>
+              <td><%= workshop.quota %></td>
+              <td><%= workshop.workshop_users.where(status: 1).count %></td>
+              <td><%= workshop.workshop_users.where(status: 0).count %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>No existen talleres en esta casa</p>
+    <% end %>
+  <% end %>
+</div>
+<div>
+  <%= link_to "Guardar reporte", houses_admin_stats_path(format: "xlsx"), 
+      class: "button warning expanded" %>
+</div>

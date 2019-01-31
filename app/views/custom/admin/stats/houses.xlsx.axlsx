@@ -1,0 +1,37 @@
+wb = xlsx_package.workbook
+
+# Create a style we can use for record headers
+styles = xlsx_package.workbook.styles
+title = styles.add_style :bg_color => "DD", :sz => 16, :b => true, :alignment => {:horizontal => :center}
+header_style_zonal = styles.add_style bg_color: "9a4343",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+header_style = styles.add_style bg_color: "00",
+                                fg_color: "FF",
+                                bold: true,
+                                alignment: { horizontal: :center }
+t_label = styles.add_style :b => true, :alignment => {:horizontal => :center}
+label = styles.add_style :alignment => {:horizontal => :center}
+
+wb.add_worksheet(name: "Talleres") do |sheet|
+  sheet.add_row ["Casa Somos"], :style => [title]
+  sheet.add_row
+  sheet.add_row ["Casas:", @houses.count], :style => [t_label, label]
+  sheet.add_row ["Talleres:", @workshops.count], :style => [t_label, label]
+  sheet.add_row
+
+  @houses.each do |house|
+    sheet.add_row ["Casa: #{house.name}"], :style => [header_style_zonal]
+    if house.workshops.any?
+      sheet.add_row ["Nombre del taller", "Cupos disponibles", "Inscritos", "En lista de espera"], :style => header_style
+      house.workshops.each do |workshop|
+        sheet.add_row [workshop.name, workshop.quota, workshop.workshop_users.where(status: 1).count, workshop.workshop_users.where(status: 0).count]
+      end
+      sheet.add_row
+    else
+      sheet.add_row ["No existen talleres"]
+      sheet.add_row
+    end
+  end
+end

@@ -14,7 +14,11 @@
         <%= link_to t("admin.stats.show.proposal_notifications"),
                     proposal_notifications_admin_stats_path, class: "button hollow" %>
         <%= link_to t("admin.stats.show.incomplete_verifications"),
-                     admin_verifications_path, class: "button hollow" %>
+                    admin_verifications_path, class: "button hollow" %>
+        <% if feature?(:houses) %>
+          <%= link_to "Casa Somos",
+                      houses_admin_stats_path, class: "button hollow" %>
+        <% end %>
       </div>
 
       <div class="clear"></div>
@@ -144,6 +148,9 @@
         </div>
       <% end %>
 
+      <!--Casa Somos-->
+      <hr>
+
       <% if feature?(:houses) %>
         <div class="small-12 column">
           <h2>Casa Somos</h2>
@@ -154,15 +161,74 @@
                 <span class="number"><%= number_with_delimiter(@zonal_administrations) %></span>
               </p>
             </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Casas Somos <br>
+                <span class="number"><%= number_with_delimiter(@houses) %></span>
+              </p>
+            </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Talleres <br>
+                <span class="number"><%= number_with_delimiter(@workshops) %></span>
+              </p>
+              <p class="featured">
+                Total de usuarios <br>
+                <span class="number"><%= number_with_delimiter(@workshop_users_different) %></span>
+              </p>
+            </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Total de inscripciones <br>
+                <span class="number"><%= number_with_delimiter(@workshop_users) %></span>
+              </p>
+              <p>
+                Inscritos <br>
+                <span class="number"><%= number_with_delimiter(@workshop_users_ins) %></span>
+              </p>
+              <p>
+                En lista de espera <br>
+                <span class="number"><%= number_with_delimiter(@workshop_users_wait) %></span>
+              </p>
+            </div>
           </div>
-          <%= zonal_administrations_chart_tag id: "zonal_administrations" %>
+          <%= workshop_users_chart_tag id: "workshop_users" %>
         </div>
       <% end %>
+
+      <!--Voluntariado-->
+      <hr>
 
       <% if feature?(:volunteerings) %>
         <div class="small-12 column">
           <h2>Voluntariado</h2>
-          <%# budget_investments_chart_tag id: "budget_investments" %>
+          <div class="row stats-numbers">
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Categorias <br>
+                <span class="number"><%= number_with_delimiter(@categories) %></span>
+              </p>
+            </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Programas <br>
+                <span class="number"><%= number_with_delimiter(@programs) %></span>
+              </p>
+            </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Inscripciones <br>
+                <span class="number"><%= number_with_delimiter(@volunt_users) %></span>
+              </p>
+            </div>
+            <div class="small-12 medium-3 column">
+              <p class="featured">
+                Usuarios inscritos <br>
+                <span class="number"><%= number_with_delimiter(@volunt_users_different) %></span>
+              </p>
+            </div>
+          </div>
+          <%= volunt_users_chart_tag id: "volunt_users" %>
         </div>
       <% end %>
 
