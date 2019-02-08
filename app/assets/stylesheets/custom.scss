@@ -3,3 +3,88 @@
 // * English: https://github.com/consul/consul/blob/master/CUSTOMIZE_EN.md#css
 // * Spanish: https://github.com/consul/consul/blob/master/CUSTOMIZE_ES.md#css
 //
+// Esto sirve para todas las clases que empiezen por "image-tag-" y añade un icono genérico
+[class^="image-tag-"] {
+  padding-left: 24px !important;
+  position: relative;
+
+  &::before {
+    background: image-url('tag.png');
+    content: ' ';
+    left: 4px;
+    height: 20px;
+    position: absolute;
+    width: 20px;
+    background-repeat: no-repeat;
+  }
+ }
+
+// Esto sobreescribe el icono genérico y pone una image para cada etiqueta
+  .image-tag-ods1::before {
+    background: image-url('ods1.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods2::before {
+    background: image-url('ods2.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods3::before {
+    background: image-url('ods3.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods4::before {
+    background: image-url('ods4.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods5::before {
+    background: image-url('ods5.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods6::before {
+    background: image-url('ods6.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods7::before {
+    background: image-url('ods7.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods8::before {
+    background: image-url('ods8.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods9::before {
+    background: image-url('ods9.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods10::before {
+    background: image-url('ods10.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods11::before {
+    background: image-url('ods11.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods12::before {
+    background: image-url('ods12.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods13::before {
+    background: image-url('ods13.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods14::before {
+    background: image-url('ods14.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods15::before {
+    background: image-url('ods15.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods16::before {
+    background: image-url('ods16.png');
+    background-repeat: no-repeat;
+  }
+  .image-tag-ods17::before {
+    background: image-url('ods17.png');
+    background-repeat: no-repeat;
+  }
