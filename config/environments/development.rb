@@ -29,8 +29,8 @@ Rails.application.configure do
     :address              => 'smtp.gmail.com',
     :port                 => 587,
     :domain               => 'gmail.com',
-    :user_name            => 'decidequito@gmail.com',
-    :password             => 'decide12345678',
+    :user_name            => '***',
+    :password             => '***',
     :authentication       => :plain,
     :enable_starttls_auto => true
   }
@@ -42,9 +42,9 @@ Rails.application.configure do
   #config.action_mailer.smtp_settings = {
   #  :address              => 'smtp.mailgun.org',
   #  :port                 => 2525,
-  #  :domain               => 'sandboxc4b1847531aa4878821d0c9c1e23e92c.mailgun.org',
-  #  :user_name            => 'postmaster@sandboxc4b1847531aa4878821d0c9c1e23e92c.mailgun.org',
-  #  :password             => '313bd8057ea750574a06db7295e0f698-c1fe131e-eb3c4926',
+  #  :domain               => '***',
+  #  :user_name            => '***',
+  #  :password             => '***',
   #  :authentication       => :plain,
   #  :enable_starttls_auto => true,
   #  :ssl                  => false
