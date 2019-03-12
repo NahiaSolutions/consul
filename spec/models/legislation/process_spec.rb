@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Legislation::Process do
   let(:process) { create(:legislation_process) }
@@ -82,7 +82,7 @@ describe Legislation::Process do
                                             allegations_end_date: Date.current - 1.day)
       expect(process).to be_invalid
       expect(process.errors.messages[:allegations_end_date])
-      .to include("must be on or after the allegations start date")
+      .to include("must be on or after the comments start date")
     end
 
     it "is valid if allegations_end_date is the same as allegations_start_date" do

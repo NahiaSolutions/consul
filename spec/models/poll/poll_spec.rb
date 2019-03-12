@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe Poll do
 
@@ -102,7 +102,7 @@ describe Poll do
     let(:level2_from_geozone) { create(:user, :level_two, geozone: geozone) }
     let(:all_users) { [non_user, level1, level2, level2_from_geozone] }
 
-    describe 'instance method' do
+    describe "instance method" do
       it "rejects non-users and level 1 users" do
         all_polls.each do |poll|
           expect(poll).not_to be_answerable_by(non_user)
@@ -129,7 +129,7 @@ describe Poll do
       end
     end
 
-    describe 'class method' do
+    describe "class method" do
       it "returns no polls for non-users and level 1 users" do
         expect(described_class.answerable_by(nil)).to be_empty
         expect(described_class.answerable_by(level1)).to be_empty
@@ -144,6 +144,70 @@ describe Poll do
                               .order(:geozone_restricted)
         expect(list.to_a).to eq([current_poll, current_restricted_poll])
       end
+    end
+  end
+
+  describe "votable_by" do
+    it "returns polls that have not been voted by a user" do
+      user = create(:user, :level_two)
+
+      poll1 = create(:poll)
+      poll2 = create(:poll)
+      poll3 = create(:poll)
+
+      create(:poll_voter, user: user, poll: poll1)
+
+      expect(Poll.votable_by(user)).to include(poll2)
+      expect(Poll.votable_by(user)).to include(poll3)
+      expect(Poll.votable_by(user)).not_to include(poll1)
+    end
+
+    it "returns polls that are answerable by a user" do
+      user = create(:user, :level_two, geozone: nil)
+      poll1 = create(:poll)
+      poll2 = create(:poll)
+
+      allow(Poll).to receive(:answerable_by).and_return(Poll.where(id: poll1))
+
+      expect(Poll.votable_by(user)).to include(poll1)
+      expect(Poll.votable_by(user)).not_to include(poll2)
+    end
+
+    it "returns polls even if there are no voters yet" do
+      user = create(:user, :level_two)
+      poll = create(:poll)
+
+      expect(Poll.votable_by(user)).to include(poll)
+    end
+
+  end
+
+  describe "#votable_by" do
+    it "returns false if the user has already voted the poll" do
+      user = create(:user, :level_two)
+      poll = create(:poll)
+
+      create(:poll_voter, user: user, poll: poll)
+
+      expect(poll.votable_by?(user)).to eq(false)
+    end
+
+    it "returns false if the poll is not answerable by the user" do
+      user = create(:user, :level_two)
+      poll = create(:poll)
+
+      allow_any_instance_of(Poll).to receive(:answerable_by?).and_return(false)
+
+      expect(poll.votable_by?(user)).to eq(false)
+    end
+
+    it "return true if a poll is answerable and has not been voted by the user" do
+      user = create(:user, :level_two)
+      poll = create(:poll)
+
+      allow_any_instance_of(Poll).to receive(:answerable_by?).and_return(true)
+
+      expect(poll.votable_by?(user)).to eq(true)
     end
   end
 
